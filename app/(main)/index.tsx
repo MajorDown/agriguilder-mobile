@@ -1,10 +1,11 @@
-import { View, Text, Image, StyleSheet, Platform } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import AppPage from '@/components/AppPage';
 
 export default function HomeScreen() {
   return (
-    <View>
+    <AppPage title="Home">
       <Text>index</Text>
-    </View>
+    </AppPage>
   );
 }
 

@@ -2,10 +2,12 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import { PropsWithChildren } from "react";
 import Header from "./Header";
 import { useAppContext } from '@/contexts/AppContext';
+import Colors from "@/constants/Colors";
+import { router } from 'expo-router';
 
 export type AppPageProps = PropsWithChildren<{
     title: string;
-    for: 'user' | 'admin' | 'member';
+    for?: 'user' | 'admin' | 'member';
 }>
 
 const style = StyleSheet.create({
@@ -16,6 +18,7 @@ const style = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         padding: 0,
+        backgroundColor: Colors.dark
     },
     content: {
         width: '100%',
@@ -31,11 +34,18 @@ const style = StyleSheet.create({
  * @returns {JSX.Element}
  */
 const AppPage = (props: AppPageProps): JSX.Element => {
-    const { admin, member } = useAppContext();   
+    const { admin, member } = useAppContext();
+
+    //si la page est pour un admin et que l'utilisateur n'est pas admin, on redirige vers la page de login
+    if (props.for === 'admin' && !admin) router.replace('/login');
+    //si la page est pour un membre et que l'utilisateur n'est pas membre, on redirige vers la page de login
+    if (props.for === 'member' && !member) router.replace('/login');
+    // si la page est pour un user et que aucun user n'est connecté, on redirige vers la page de login
+    if (props.for === 'user' && !admin && !member) router.replace('/login');
 
     return (<View style={style.container}>
         <Header />
-        <ScrollView style={style.content}>
+        <ScrollView>
             {props.children}
         </ScrollView>
     </View>)
