@@ -35,6 +35,10 @@ export default function RootLayout() {
           name="+not-found" 
           options={{headerShown: false}}
         />
+        <Stack.Screen 
+          name="login" 
+          options={{ headerShown: false}}
+        />
       </Stack>
       <StatusBar style="auto" />
     </AppProvider>

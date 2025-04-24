@@ -4,6 +4,7 @@ import Header from "./Header";
 import { useAppContext } from '@/contexts/AppContext';
 import Colors from "@/constants/Colors";
 import { router } from 'expo-router';
+import AppTitle from "./texts/AppTitle";
 
 export type AppPageProps = PropsWithChildren<{
     title: string;
@@ -20,12 +21,6 @@ const style = StyleSheet.create({
         padding: 0,
         backgroundColor: Colors.dark
     },
-    content: {
-        width: '100%',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-    }
 })
 
 /*
@@ -46,6 +41,7 @@ const AppPage = (props: AppPageProps): JSX.Element => {
     return (<View style={style.container}>
         <Header />
         <ScrollView>
+            <AppTitle>{props.title}</AppTitle>
             {props.children}
         </ScrollView>
     </View>)

@@ -14,7 +14,7 @@ const Header = (): JSX.Element => {
         <Pressable onPress={handleReturnHome} style={Styles.headerTitle}>
             <Image
                 source={require('@/assets/images/icons/logo-white.png')}
-                style={{width: 35, height: 35}}
+                style={{width: 35, height: 50}}
             />
             <AppTitle>Agriguilder</AppTitle>
         </Pressable>
@@ -34,7 +34,7 @@ const Styles = StyleSheet.create({
     headerTitle: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        alignItems: 'flex-start',
+        alignItems: 'center',
     }
 })
 

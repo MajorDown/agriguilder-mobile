@@ -5,10 +5,11 @@ import Colors from '@/constants/Colors'
 const styles = StyleSheet.create({
     title: {
         fontFamily: 'Montserrat',
-        fontWeight: 'bold',
+        fontWeight: '600',
         textTransform: 'uppercase',
         fontSize: 20,
-        color: Colors.global
+        color: Colors.global,
+        margin: 10
     }
 })
 
