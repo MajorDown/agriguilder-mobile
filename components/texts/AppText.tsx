@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'Montserrat',
         fontSize: 16,
-        color: Colors.global
+        color: Colors.global,
+        textAlign: 'center',
     }
 })
 

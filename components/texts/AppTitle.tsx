@@ -5,7 +5,8 @@ import Colors from '@/constants/Colors'
 const styles = StyleSheet.create({
     title: {
         fontFamily: 'Montserrat',
-        fontWeight: '600',
+        fontWeight: '700',
+        textAlign: 'center',
         textTransform: 'uppercase',
         fontSize: 20,
         color: Colors.global,
