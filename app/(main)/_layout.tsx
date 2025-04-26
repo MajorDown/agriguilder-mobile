@@ -1,18 +1,17 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
-import AppTabs from '@/constants/AppTabs';
 import Colors from '@/constants/Colors';
-import TabsIcon from '@/components/TabsIcon';
+import AppTabs from '@/components/AppTabs';
 
 export default function MainLayout() {
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors.light,
+        tabBarActiveTintColor: Colors.dark,
         tabBarInactiveTintColor: Colors.global,
-        tabBarActiveBackgroundColor: Colors.dark,
+        tabBarActiveBackgroundColor: Colors.light,
         tabBarInactiveBackgroundColor: Colors.dark,
         headerShown: false,
         tabBarStyle: Platform.select({
@@ -27,13 +26,7 @@ export default function MainLayout() {
           },
         }),
       }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: () => <TabsIcon title={"home"} icon={require('@/assets/images/icons/declarer-white-light.png')} />,
-        }}
-      />
+      <AppTabs />
     </Tabs>
   );
 }
