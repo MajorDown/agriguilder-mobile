@@ -1,6 +1,6 @@
 import { ConnectedUser } from "@/constants/Types";
 
-export type ConnectUserProps = {
+export type logUserProps = {
     userType: 'member' | 'admin';
     userMail: string;
     userPassword: string;
@@ -14,7 +14,7 @@ export type ConnectUserProps = {
  * @returns Un objet contenant les informations de l'utilisateur connecté
  * @throws Une erreur si la connexion échoue ou si la réponse du serveur est invalide
  */
-const connectUser = async (props: ConnectUserProps): Promise<ConnectedUser> => {
+const logUser = async (props: logUserProps): Promise<ConnectedUser> => {
     const response = await fetch('https://agriguilder.com/api/mobile/user/login', {
         method: 'POST',
         headers: {
@@ -28,4 +28,4 @@ const connectUser = async (props: ConnectUserProps): Promise<ConnectedUser> => {
     return data as ConnectedUser;
 };
 
-export default connectUser;
+export default logUser;
