@@ -4,6 +4,10 @@ import PagesLister, {AppTab} from "@/constants/PagesLister";
 import TabsIcon from "./TabsIcon";
 import normaliseString from "@/utils/normaliseString";
 
+/**
+ * @description Composant qui affiche les onglets de l'application en fonction du type d'utilisateur connecté.
+ * @returns {JSX.Element} Les onglets de l'application.
+ */
 const AppTabs = ():JSX.Element => {
     const { member, admin } = useAppContext();
     let validTabs: AppTab[] = [];

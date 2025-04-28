@@ -1,5 +1,5 @@
 import {FC, createContext, useContext, useState } from 'react';
-import {ConnectedAdmin, ConnectedMember, GuildConfig, Intervention, Contestation} from '../constants/Types';
+import {ConnectedAdmin, ConnectedMember, GuildConfig, Intervention, Contestation} from '@/constants/Types';
 
 type AppContextType = {
     admin: ConnectedAdmin | null;
