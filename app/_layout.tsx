@@ -4,7 +4,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { AppProvider } from '../contexts/AppContext';
+import { AppContextProvider } from '../contexts/AppContext';
+import AppContextUpdater from '@/components/AppContextUpdater';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -25,7 +26,8 @@ export default function RootLayout() {
   }
 
   return (<>
-    <AppProvider>
+    <AppContextProvider>
+      <AppContextUpdater />
       <Stack>
         <Stack.Screen 
           name="(main)" 
@@ -41,7 +43,7 @@ export default function RootLayout() {
         />
       </Stack>
       <StatusBar style="auto" />
-    </AppProvider>
+    </AppContextProvider>
   </>
   );
 }

@@ -24,7 +24,7 @@ export const useAppContext = () => {
     return context;
 }
 
-export const AppProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AppContextProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
     const [admin, updateAdmin] = useState<ConnectedAdmin | null>(null);
     const [member, updateMember] = useState<ConnectedMember | null>(null);
     const [guildConfig, updateGuildConfig] = useState<GuildConfig | null>(null);
