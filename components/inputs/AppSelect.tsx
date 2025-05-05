@@ -10,12 +10,12 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
-type SelectOption = {
+export type SelectOption = {
   label: string;
   value: string | number;
 };
 
-type AppSelectProps = {
+export type AppSelectProps = {
   options: SelectOption[];
   onSelect: (value: string | number) => void;
   defaultValue?: SelectOption;
@@ -100,8 +100,8 @@ const AppSelect = ({
         <Image
           source={
             isOpen
-              ? require('@/assets/images/arrow_up.png')
-              : require('@/assets/images/arrow_down.png')
+              ? require('@/assets/images/icons/arrow-green-left.png')
+              : require('@/assets/images/icons/arrow-green-right.png')
           }
           style={styles.icon}
         />
