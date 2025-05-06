@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
         fontSize: 20,
         color: Colors.global,
-        margin: 10
+        marginTop: 10,
+        marginBottom: 20,
     }
 })
 

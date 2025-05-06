@@ -95,32 +95,37 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
+    width: 300,
+    backgroundColor: Colors.global,
+    zIndex: 1
   },
   label: {
     fontSize: 16,
     marginBottom: 5,
     color: Colors.global,
+    zIndex: 1
   },
   input: {
-    borderWidth: 1,
-    borderColor: Colors.dark,
     backgroundColor: Colors.global,
-    padding: 10,
+    padding: 5,
     fontSize: 16,
     width: '100%',
+    zIndex: 1
   },
   inputError: {
     borderColor: Colors.error,
+    zIndex: 1
   },
   errorText: {
     color: Colors.error,
     fontSize: 12,
     marginTop: 5,
+    zIndex: 1
   },
   toggle: {
     paddingHorizontal: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 1
   },
 });

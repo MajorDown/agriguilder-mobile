@@ -17,7 +17,7 @@ const style = StyleSheet.create({
     justifyContent: 'flex-start',
     padding: 0,
     backgroundColor: Colors.dark,
-  },
+  }
 });
 
 const AppPage = (props: AppPageProps): JSX.Element => {

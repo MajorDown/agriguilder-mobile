@@ -1,14 +1,22 @@
-import { useState, useRef, useEffect } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+} from 'react';
 import {
   View,
   Text,
   Pressable,
-  Animated,
   FlatList,
   Image,
   StyleSheet,
+  Modal,
+  Animated,
   TouchableWithoutFeedback,
+  UIManager,
+  findNodeHandle,
 } from 'react-native';
+import Colors from '@/constants/Colors';
 
 export type SelectOption = {
   label: string;
@@ -22,14 +30,6 @@ export type AppSelectProps = {
   placeholder?: string;
 };
 
-/**
- * @description Composant de sélection réutilisable avec animation et gestion d'état.
- * @param {SelectOption[]} options - Liste des options à afficher dans le sélecteur.
- * @param {(value: string | number) => void} onSelect - Fonction de rappel appelée lors de la sélection d'une option.
- * @param {SelectOption} [defaultValue] - Valeur par défaut à afficher dans le sélecteur.
- * @param {string} [placeholder] - Texte d'espace réservé à afficher lorsque aucune option n'est sélectionnée.
- * @returns {JSX.Element} - Composant de sélection.
- */
 const AppSelect = ({
   options,
   onSelect,
@@ -38,113 +38,109 @@ const AppSelect = ({
 }: AppSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<SelectOption | undefined>(defaultValue);
-  const animatedHeight = useRef(new Animated.Value(0)).current;
-  const containerRef = useRef<View>(null);
-  const maxHeight = 150;
+  const [position, setPosition] = useState({ x: 0, y: 0, height: 0 });
 
-  const toggleDropdown = () => {
-    if (isOpen) {
-      Animated.timing(animatedHeight, {
-        toValue: 0,
-        duration: 100,
-        useNativeDriver: false,
-      }).start(() => setIsOpen(false));
-    } else {
-      setIsOpen(true);
-      Animated.timing(animatedHeight, {
-        toValue: maxHeight,
-        duration: 100,
-        useNativeDriver: false,
-      }).start();
+  const selectRef = useRef<View>(null);
+  const animatedHeight = useRef(new Animated.Value(0)).current;
+  const maxHeight = 150;
+  const dropdownWidth = 250;
+
+  const openDropdown = () => {
+    if (selectRef.current) {
+      const handle = findNodeHandle(selectRef.current);
+      if (handle) {
+        UIManager.measure(handle, (_x, _y, _width, height, pageX, pageY) => {
+          setPosition({ x: pageX, y: pageY, height });
+          setIsOpen(true);
+          Animated.timing(animatedHeight, {
+            toValue: maxHeight,
+            duration: 150,
+            useNativeDriver: false,
+          }).start();
+        });
+      }
     }
+  };
+
+  const closeDropdown = () => {
+    Animated.timing(animatedHeight, {
+      toValue: 0,
+      duration: 100,
+      useNativeDriver: false,
+    }).start(() => setIsOpen(false));
   };
 
   const handleSelect = (item: SelectOption) => {
     setSelected(item);
     onSelect(item.value);
-    toggleDropdown();
+    closeDropdown();
   };
 
-  // Ferme si on clique hors du composant
-  useEffect(() => {
-    const hideDropdown = () => {
-      Animated.timing(animatedHeight, {
-        toValue: 0,
-        duration: 100,
-        useNativeDriver: false,
-      }).start(() => setIsOpen(false));
-    };
-
-    if (isOpen) {
-      const timeout = setTimeout(() => {
-        const listener = () => hideDropdown();
-        document.addEventListener('click', listener);
-        return () => document.removeEventListener('click', listener);
-      }, 0);
-      return () => clearTimeout(timeout);
-    }
-  }, [isOpen]);
-
   return (
-    <View ref={containerRef} style={styles.container}>
-      {isOpen && (
-        <TouchableWithoutFeedback onPress={toggleDropdown}>
-          <View style={styles.overlay} />
-        </TouchableWithoutFeedback>
-      )}
-
-      <Pressable style={styles.button} onPress={toggleDropdown}>
+    <>
+      <Pressable
+        ref={selectRef}
+        style={styles.button}
+        onPress={openDropdown}
+      >
         <Text style={styles.buttonText}>
           {selected?.label || placeholder}
         </Text>
         <Image
           source={
             isOpen
-              ? require('@/assets/images/icons/arrow-green-left.png')
-              : require('@/assets/images/icons/arrow-green-right.png')
+              ? require('@/assets/images/icons/arrow_up.png')
+              : require('@/assets/images/icons/arrow_down.png')
           }
           style={styles.icon}
         />
       </Pressable>
 
-      {isOpen && (
-        <Animated.View style={[styles.dropdown, { height: animatedHeight }]}>
-          <FlatList
-            data={options}
-            keyExtractor={(item) => item.value.toString()}
-            renderItem={({ item }) => (
-              <Pressable style={styles.option} onPress={() => handleSelect(item)}>
-                <Text style={styles.optionText}>{item.label}</Text>
-              </Pressable>
-            )}
-            nestedScrollEnabled
-            keyboardShouldPersistTaps="handled"
-          />
-        </Animated.View>
-      )}
-    </View>
+      <Modal transparent visible={isOpen} animationType="none">
+        <TouchableWithoutFeedback onPress={closeDropdown}>
+          <View style={styles.modalOverlay}>
+            <Animated.View
+              style={[
+                styles.dropdown,
+                {
+                  top: position.y + position.height,
+                  left: position.x,
+                  width: dropdownWidth,
+                  height: animatedHeight,
+                },
+              ]}
+            >
+              <FlatList
+                data={options}
+                keyExtractor={(item) => item.value.toString()}
+                renderItem={({ item }) => (
+                  <Pressable
+                    style={styles.option}
+                    onPress={() => handleSelect(item)}
+                  >
+                    <Text style={styles.optionText}>{item.label}</Text>
+                  </Pressable>
+                )}
+                keyboardShouldPersistTaps="handled"
+              />
+            </Animated.View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    width: '100%',
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    zIndex: 500,
-  },
   button: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#999',
-    borderRadius: 8,
-    padding: 10,
+    padding: 5,
     backgroundColor: '#fff',
-    zIndex: 1001,
+    width: 300,
   },
   buttonText: {
     fontSize: 16,
@@ -154,18 +150,17 @@ const styles = StyleSheet.create({
     width: 20,
     height: 12,
   },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'transparent',
+  },
   dropdown: {
     position: 'absolute',
-    top: '100%',
-    left: 0,
-    right: 0,
-    backgroundColor: '#fff',
-    borderRadius: 8,
+    backgroundColor: Colors.global,
+    overflow: 'hidden',
+    zIndex: 9999,
     borderWidth: 1,
     borderColor: '#999',
-    marginTop: 4,
-    overflow: 'hidden',
-    zIndex: 1000,
   },
   option: {
     padding: 12,
