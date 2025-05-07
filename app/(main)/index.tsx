@@ -10,15 +10,6 @@ export default function HomeScreen() {
   const { member, admin } = useAppContext();
   const [testResponse, setTestResponse] = useState<string>('');
 
-  useEffect(() => {
-    const fetchTest = async () => {
-      const response = await test();
-      setTestResponse(response);
-    };
-
-    fetchTest();
-  }, []);
-
   return (
     <AppPage title="Bienvenue">
       {testResponse && <AppText>{testResponse}</AppText>}

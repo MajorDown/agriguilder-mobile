@@ -6,6 +6,8 @@ export type logUserProps = {
     userPassword: string;
 };
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL_DEV || process.env.EXPO_PUBLIC_API_URL;
+
 /**
  * @description Fonction pour s'authentifier grâce à l'API
  * @param props.userType - Le type d'utilisateur (membre ou admin)
@@ -15,7 +17,7 @@ export type logUserProps = {
  * @throws Une erreur si la connexion échoue ou si la réponse du serveur est invalide
  */
 const logUser = async (props: logUserProps): Promise<ConnectedUser> => {
-    const response = await fetch('https://agriguilder.com/api/mobile/user/login', {
+    const response = await fetch(`${apiUrl}/user/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

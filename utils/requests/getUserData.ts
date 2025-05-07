@@ -10,6 +10,8 @@ export type GetUserDataResponse = {
     contestations: Contestation[];
 }
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL_DEV || process.env.EXPO_PUBLIC_API_URL;
+
 /**
  * @description Fonction pour récupérer les données relatives à l'utilisateur grâce à l'API
  * @param props.user - L'utilisateur connecté
@@ -17,7 +19,7 @@ export type GetUserDataResponse = {
  * @throws Une erreur si la récupération échoue ou si la réponse du serveur est invalide
  */
 const getUserData = async (props: GetUserDataProps): Promise<GetUserDataResponse>  => {
-    const response = await fetch('https://agriguilder.com/api/mobile/data/getUserData', {
+    const response = await fetch(`${apiUrl}/data/getUserData`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
