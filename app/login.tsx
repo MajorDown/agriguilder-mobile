@@ -10,6 +10,7 @@ import logUser from "@/utils/requests/logUser";
 import { useAppContext } from "@/contexts/AppContext";
 import { ConnectedAdmin, ConnectedMember } from "@/constants/Types";
 import { useRouter } from "expo-router";
+import { storeUser } from "@/utils/AppAsyncStorage";
 
 const LoginPage = ():JSX.Element => {
     const { updateMember, updateAdmin } = useAppContext();
@@ -33,6 +34,7 @@ const LoginPage = ():JSX.Element => {
             } else if (userType === 'admin') {
                 updateAdmin(response as ConnectedAdmin);
             }
+            await storeUser(response);
             setEmail("");
             setPassword("");
             setUserType(undefined);
