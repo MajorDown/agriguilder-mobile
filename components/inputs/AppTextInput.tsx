@@ -1,6 +1,6 @@
-import { View, Text, TextInput, StyleSheet, Vibration, Animated, Easing } from 'react-native';
-import { useState, useEffect } from 'react';
-import Colors from '@/constants/Colors';
+import Colors from '@/constants/AppColors';
+import { useEffect, useState } from 'react';
+import { Animated, StyleSheet, Text, TextInput, Vibration, View } from 'react-native';
 
 export type AppTextInputProps = {
     label?: string;

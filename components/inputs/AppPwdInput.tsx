@@ -1,6 +1,6 @@
-import { View, Text, TextInput, StyleSheet, Vibration, Animated, TouchableOpacity, Image} from 'react-native';
-import { useState, useEffect } from 'react';
-import Colors from '@/constants/Colors';
+import Colors from '@/constants/AppColors';
+import { useEffect, useState } from 'react';
+import { Animated, Image, StyleSheet, Text, TextInput, TouchableOpacity, Vibration, View } from 'react-native';
 
 export type AppPwdInputProps = {
   label?: string;

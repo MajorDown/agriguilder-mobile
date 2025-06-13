@@ -1,22 +1,21 @@
+import Colors from '@/constants/AppColors';
 import {
-  useState,
   useRef,
-  useEffect,
+  useState
 } from 'react';
 import {
-  View,
-  Text,
-  Pressable,
+  Animated,
   FlatList,
   Image,
-  StyleSheet,
   Modal,
-  Animated,
+  Pressable,
+  StyleSheet,
+  Text,
   TouchableWithoutFeedback,
   UIManager,
+  View,
   findNodeHandle,
 } from 'react-native';
-import Colors from '@/constants/Colors';
 
 export type SelectOption = {
   label: string;

@@ -1,7 +1,7 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import Colors from "@/constants/AppColors";
 import { PropsWithChildren } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
 import Header from "./Header";
-import Colors from "@/constants/Colors";
 import AppTitle from "./texts/AppTitle";
 
 export type AppPageProps = PropsWithChildren<{
@@ -20,7 +20,7 @@ const style = StyleSheet.create({
   }
 });
 
-const AppPage = (props: AppPageProps): JSX.Element => {
+const AppPage = (props: AppPageProps) => {
 
   return (
     <View style={style.container}>

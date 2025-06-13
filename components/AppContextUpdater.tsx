@@ -1,16 +1,14 @@
-'use client';
-
-import { useEffect } from 'react';
-import { useAppContext } from '@/contexts/AppContext';
-import { getUser } from '@/utils/AppAsyncStorage';
-import getUserData from '@/utils/requests/getUserData';
 import { ConnectedAdmin, ConnectedMember } from '@/constants/Types';
+import { useAppContext } from '@/contexts/AppContext';
+import SecureStoreManager from '@/utils/SecureStoreManager';
+import getUserData from '@/utils/requests/getUserData';
+import { useEffect } from 'react';
 
 /**
  * @description Composant qui initialise et actualise automatiquement le contexte application
  * @returns {JSX.Element}
  */
-const AppContextUpdater = (): JSX.Element => {
+const AppContextUpdater = () => {
     const {
         admin,
         member,
@@ -24,7 +22,7 @@ const AppContextUpdater = (): JSX.Element => {
     const initUserData = async () => {
         try {
             // Récupération du user stocké
-            const storedUser = await getUser();
+            const storedUser = await SecureStoreManager.loadUser();
 
             if (storedUser) {
                 // si le storedUser est de type ConnectedAdmin (donc avec la propriété authPersistence), on actualise admin dans le context

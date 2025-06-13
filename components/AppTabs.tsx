@@ -1,14 +1,14 @@
-import { Tabs } from "expo-router";
+import PagesLister, { AppTab } from "@/constants/PagesLister";
 import { useAppContext } from "@/contexts/AppContext";
-import PagesLister, {AppTab} from "@/constants/PagesLister";
-import TabsIcon from "./TabsIcon";
 import normaliseString from "@/utils/normaliseString";
+import { Tabs } from "expo-router";
+import TabsIcon from "./TabsIcon";
 
 /**
  * @description Composant qui affiche les onglets de l'application en fonction du type d'utilisateur connecté.
  * @returns {JSX.Element} Les onglets de l'application.
  */
-const AppTabs = ():JSX.Element => {
+const AppTabs = () => {
     const { member, admin } = useAppContext();
     let validTabs: AppTab[] = [];
     if (admin) validTabs = PagesLister.filter((tab) => tab.for === 'admin' || tab.for === 'user');

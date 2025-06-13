@@ -16,22 +16,6 @@ export type NewMemberInfos = {
     initialCount: UserCounter
 }
 
-// TYPES POUR LE GOD
-
-export type God = {
-    name: UserName,
-    mail: UserMail,
-    phone: UserPhone,
-    password: UserPassword;
-}
-
-export type ConnectedGod = Omit<God, 'password'> & { token: string };
-
-export type GodContext = {
-    god: ConnectedGod | null,
-    updateGod: (god: ConnectedGod | null) => void,
-}
-
 // TYPES POUR ADMIN
 
 export type Admin = {

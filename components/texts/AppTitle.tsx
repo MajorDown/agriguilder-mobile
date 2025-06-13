@@ -1,18 +1,17 @@
 import { JSX, PropsWithChildren } from 'react';
 import { Text, StyleSheet } from 'react-native';
-import Colors from '@/constants/Colors'
-
-export type AppTextProps = PropsWithChildren<{
-    type?: 'error' | 'infos'
-}>
+import Colors from '@/constants/AppColors'
 
 const styles = StyleSheet.create({
-    text: {
+    title: {
         fontFamily: 'Montserrat',
-        fontSize: 16,
         fontWeight: '700',
-        color: Colors.global,
         textAlign: 'center',
+        textTransform: 'uppercase',
+        fontSize: 20,
+        color: Colors.global,
+        marginTop: 10,
+        marginBottom: 20,
     }
 })
 
@@ -21,13 +20,13 @@ const styles = StyleSheet.create({
  * @param props.type - Type spécifique de texte (error, infos)
  * @returns 
  */
-const AppText = (props: AppTextProps): JSX.Element => {
+const AppTitle = (props: PropsWithChildren): JSX.Element => {
 
     return (
-        <Text style={[styles.text, props.type === 'error' ? { color: Colors.error } : props.type === 'infos' ? { color: Colors.ok } : {}]}>
+        <Text style={styles.title}>
             {props.children}
         </Text>
     );
 }
 
-export default AppText;
+export default AppTitle;

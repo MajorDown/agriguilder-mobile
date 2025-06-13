@@ -1,6 +1,5 @@
-import { Pressable, Text, StyleSheet } from "react-native";
-import { JSX } from "react";
-import Colors from "@/constants/Colors";
+import Colors from "@/constants/AppColors";
+import { Pressable, StyleSheet, Text } from "react-native";
 
 export type AppButtonProps = {
     type: 'light' | 'dark';
@@ -36,7 +35,7 @@ const styles = StyleSheet.create({
  * @param props.onPress - la fonction à appeler lors du clic sur le bouton
  * @returns JSX.Element
  */
-const AppButton = (props: AppButtonProps): JSX.Element => {
+const AppButton = (props: AppButtonProps) => {
     return (<Pressable style={[styles.button, styles[props.type]]} onPress={props.onPress}>
         <Text style={[styles.text, styles[props.type]]}>{props.text}</Text>
     </Pressable>)

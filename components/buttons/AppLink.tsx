@@ -1,5 +1,5 @@
-import AppButton from './AppButton';
 import { ExternalPathString, RelativePathString, useRouter } from 'expo-router';
+import AppButton from './AppButton';
 
 export type AppLinkProps = {
     href: RelativePathString | ExternalPathString;
@@ -12,7 +12,7 @@ export type AppLinkProps = {
  * @param props.text - le texte à afficher sur le lien
  * @return JSX.Element
  */
-const AppLink = (props: AppLinkProps): JSX.Element => {
+const AppLink = (props: AppLinkProps) => {
     const router = useRouter();
 
     const handlePress = () => {

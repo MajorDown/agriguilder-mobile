@@ -1,5 +1,5 @@
-import { View, Image, StyleSheet } from "react-native";
 import PagesLister from "@/constants/PagesLister";
+import { Image, StyleSheet, View } from "react-native";
 
 type Props = {
     title: string;
@@ -11,7 +11,7 @@ type Props = {
  * @param {string} props.title
  * @returns JSX.Element
  */
-const TabsIcon = (props: Props):JSX.Element => {
+const TabsIcon = (props: Props) => {
     const tab = PagesLister.find((tab) => tab.name === props.title);
     if (!tab) return <View style={Styles.container} />;
     const tabIcon = props.isActive ? tab.active : tab.inactive;

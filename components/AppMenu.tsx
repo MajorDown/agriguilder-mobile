@@ -1,7 +1,8 @@
-import {View, Text, Image, StyleSheet} from "react-native";
 import { useAppContext } from "@/contexts/AppContext";
+import { ReactNode } from "react";
+import { StyleSheet, View } from "react-native";
 
-const AppMenu = (): JSX.Element => {
+const AppMenu = (): ReactNode => {
     const { member, admin } = useAppContext();
     return (
         <View style={styles.container}>
