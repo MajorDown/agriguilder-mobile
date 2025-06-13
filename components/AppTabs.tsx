@@ -21,7 +21,9 @@ const AppTabs = () => {
                 name={normaliseString(tab.name)}
                 options={{
                     title: tab.title,
-                    tabBarIcon: ({focused}) => <TabsIcon title={tab.name} isActive={focused}/>,
+                    tabBarIcon: ({focused}) => (
+                        <TabsIcon title={tab.name} isActive={focused} />
+                    ),
                 }}
             />
         ))}

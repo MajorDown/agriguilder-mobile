@@ -1,10 +1,11 @@
 import AppContextUpdater from '@/components/AppContextUpdater';
 import { AppContextProvider } from '@/contexts/AppContext';
 import { useFonts } from 'expo-font';
+import * as NavigationBar from 'expo-navigation-bar';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { StatusBar } from 'react-native';
 import 'react-native-reanimated';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -19,6 +20,7 @@ export default function RootLayout() {
     if (loaded) {
       SplashScreen.hideAsync();
     }
+    NavigationBar.setVisibilityAsync('hidden');
   }, [loaded]);
 
   if (!loaded) {
@@ -30,19 +32,24 @@ export default function RootLayout() {
       <AppContextUpdater />
       <Stack>
         <Stack.Screen 
-          name="(main)" 
+          name="index" 
           options={{ headerShown: false}} 
-        />
-        <Stack.Screen 
-          name="+not-found" 
-          options={{headerShown: false}}
         />
         <Stack.Screen 
           name="login" 
           options={{ headerShown: false}}
         />
+        <Stack.Screen 
+          name="+not-found" 
+          options={{headerShown: false}}
+        />
       </Stack>
-      <StatusBar style="auto" />
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+        animated
+      />
     </AppContextProvider>
   </>
   );

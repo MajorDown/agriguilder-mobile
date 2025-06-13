@@ -1,29 +1,16 @@
-import { Link, Stack } from 'expo-router';
-import { Text, View, StyleSheet } from 'react-native';
+import AppPage from '@/components/AppPage';
+import AppText from '@/components/texts/AppText';
+import { Link } from 'expo-router';
+import { StyleSheet } from 'react-native';
 
 export default function NotFoundScreen() {
+
   return (
-    <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
-      <View style={styles.container}>
-        <Text>This screen doesn't exist.</Text>
-        <Link href="/" style={styles.link}>
-          <Text>Go to home screen!</Text>
-        </Link>
-      </View>
-    </>
-  );
+    <AppPage title="404 - Page non trouvée">
+      <AppText>La page que vous cherchez n'existe pas.</AppText>
+      <Link href="/" style={{ marginTop: 20 }}>Page d'accueil</Link>
+    </AppPage>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-});
+const styles = StyleSheet.create({});

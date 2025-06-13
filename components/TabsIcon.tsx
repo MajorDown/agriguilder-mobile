@@ -18,7 +18,7 @@ const TabsIcon = (props: Props) => {
 
 
     return (<View style={Styles.container}>
-        <Image 
+        <Image
             source={tabIcon}
             style={Styles.image} 
         />

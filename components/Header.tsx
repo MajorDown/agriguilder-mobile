@@ -1,14 +1,14 @@
-import {Image, View, Pressable, StyleSheet} from 'react-native';
-import { router } from 'expo-router';
 import AppTitle from '@/components/texts/AppTitle';
+import { router } from 'expo-router';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 
 /*
 * @description Header de l'application
 * @return {JSX.Element}
 */
-const Header = (): JSX.Element => {
+const Header = () => {
 
-    const handleReturnHome = () => router.replace("/(main)");
+    const handleReturnHome = () => router.replace("/");
 
     return (<View style={Styles.header}>
         <Pressable onPress={handleReturnHome} style={Styles.headerTitle}>

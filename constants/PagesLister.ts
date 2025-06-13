@@ -13,8 +13,8 @@ const AppTabs: AppTab[] = [
         name: 'Outils',
         title: 'les outils de la guilde',
         for: 'admin',
-        active: require('@/assets/images/icons/declarer-green.png'),
-        inactive: require('@/assets/images/icons/declarer-white-light.png')
+        active: require('@/assets/images/icons/outils-green.png'),
+        inactive: require('@/assets/images/icons/outils-white-light.png')
     },
     {
         name: 'Membres',
