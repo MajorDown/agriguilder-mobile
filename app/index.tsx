@@ -11,6 +11,7 @@ export default function HomeScreen() {
     <AppPage title="Bienvenue">
       {(member || admin) && <AppText>page d'Accueil</AppText>}
       {!member && !admin && <LoginRedirector withMessage/>}
+      
     </AppPage>
   )
 }

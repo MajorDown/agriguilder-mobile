@@ -35,6 +35,7 @@ const Styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
+        gap: 10
     }
 })
 

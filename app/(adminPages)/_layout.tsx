@@ -2,7 +2,7 @@ import Colors from '@/constants/AppColors';
 import { Tabs } from 'expo-router';
 import React from 'react';
 
-export default function MainLayout() {
+export default function AdminPagesLayout() {
 
   return (
     <Tabs
