@@ -31,20 +31,6 @@ const AppTabs: AppTab[] = [
         inactive: require('@/assets/images/icons/arbitrage-white-light.png')
     },
     {
-        name: 'Règlement',
-        title: 'règlement de la guilde',
-        for: 'user',
-        active: require('@/assets/images/icons/reglement-green.png'),
-        inactive: require('@/assets/images/icons/reglement-white-light.png')
-    },
-    {
-        name: 'Options',
-        title: 'options et paramètres',
-        for: 'user',
-        active: require('@/assets/images/icons/options-green.png'),
-        inactive: require('@/assets/images/icons/options-white-light.png')
-    },
-    {
         name: 'Déclarer',
         title: 'déclarer une nouvelle intervention',
         for: 'member',
@@ -64,6 +50,20 @@ const AppTabs: AppTab[] = [
         for: 'member',
         active: require('@/assets/images/icons/guilde-green.png'),
         inactive: require('@/assets/images/icons/guilde-white-light.png')
+    },
+        {
+        name: 'Règlement',
+        title: 'règlement de la guilde',
+        for: 'user',
+        active: require('@/assets/images/icons/reglement-green.png'),
+        inactive: require('@/assets/images/icons/reglement-white-light.png')
+    },
+    {
+        name: 'Options',
+        title: 'options et paramètres',
+        for: 'user',
+        active: require('@/assets/images/icons/options-green.png'),
+        inactive: require('@/assets/images/icons/options-white-light.png')
     }
 ]
 
