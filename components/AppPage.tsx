@@ -41,7 +41,9 @@ const AppPage = (props: AppPageProps) => {
           <AppText>Cette page est réservé aux membres.</AppText>
           <LoginRedirector />
         </>}
-        {props.children}
+        {props.adminOnly && admin && props.children}
+        {props.memberOnly && member && props.children}
+        {!props.adminOnly && !props.memberOnly && props.children}
       </ScrollView>
     </View>
   );

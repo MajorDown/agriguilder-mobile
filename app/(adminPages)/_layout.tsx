@@ -2,7 +2,7 @@ import Colors from '@/constants/AppColors';
 import AppTabs from '@/constants/PagesLister';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, Text } from 'react-native';
 
 export default function AdminPagesLayout() {
   const adminTabs = AppTabs.filter((tab) => tab.for === 'admin' || tab.for === 'user');
@@ -19,10 +19,21 @@ export default function AdminPagesLayout() {
                 style={{ width: 24, height: 24 }}
               />
             ) : null,
+          tabBarLabel: ({ focused }) => (
+            <Text style={{ 
+              color: focused ? Colors.dark : Colors.global,
+              paddingTop: 5
+            }}>
+              {tabConfig ? tabConfig.name : ''}
+            </Text>
+          ),
           tabBarActiveTintColor: Colors.light,
           tabBarInactiveTintColor: Colors.global,
-          tabBarActiveBackgroundColor: Colors.dark,
+          tabBarActiveBackgroundColor: Colors.light,
           tabBarInactiveBackgroundColor: Colors.dark,
+          tabBarStyle: {
+            height: 60,
+          },
           headerShown: false,
         };
       }}
@@ -32,7 +43,7 @@ export default function AdminPagesLayout() {
           key={tab.name}
           name={tab.name}
           options={{
-            title: tab.title,
+            headerShown: false,
           }}
         />
       ))}
