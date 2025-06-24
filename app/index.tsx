@@ -1,3 +1,4 @@
+import AppMenu from '@/components/AppMenu';
 import AppPage from '@/components/AppPage';
 import LoginRedirector from '@/components/LoginRedirector';
 import AppText from '@/components/texts/AppText';
@@ -11,6 +12,7 @@ export default function HomeScreen() {
     <AppPage title="Bienvenue">
       {(member || admin) && <AppText>page d'Accueil</AppText>}
       {!member && !admin && <LoginRedirector withMessage/>}
+      <AppMenu />
     </AppPage>
   )
 }

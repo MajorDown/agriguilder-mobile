@@ -30,7 +30,7 @@ export default function RootLayout() {
   return (<>
     <AppContextProvider>
       <AppContextUpdater />
-      <Stack>
+      <Stack screenOptions={{headerShown: false}}>
         <Stack.Screen 
           name="index" 
           options={{ headerShown: false}} 

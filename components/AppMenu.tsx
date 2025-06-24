@@ -1,34 +1,34 @@
 import PagesLister from "@/constants/PagesLister";
 import { useAppContext } from "@/contexts/AppContext";
 import { ReactNode } from "react";
-import { Image, StyleSheet, View } from "react-native";
-import AppTitle from "./texts/AppTitle";
+import { StyleSheet, View } from "react-native";
+import MenuButton from "./buttons/MenuButton";
 
 const AppMenu = (): ReactNode => {
     const { member, admin } = useAppContext();
 
+    // filtrage : si il y a un admin, on affiche les pages pour les admin et user
+    // si il y a un member, on affiche les pages pour les membres et user
     const filteredPages = PagesLister.filter(page => {
-        if (page.for === 'user') {
-            return member || admin;
-        } else if (page.for === 'admin') {
-            return admin;
-        } else if (page.for === 'member') {
-            return member;
+        if (admin) {
+            return page.for === 'admin' || page.for === 'user';
+        } else if (member) {
+            return page.for === 'member' || page.for === 'user';
         }
-        return false;
+        return false; // si ni admin ni member, on ne retourne rien
     });
 
     return (
         <View style={styles.container}>
-            {filteredPages.map((page, index) => (<View key={index}>
-                <Image
-                    source={page.active}
+            {filteredPages.map((page, index) => (
+                <MenuButton
+                    key={index}
+                    for={page.for}
+                    name={page.name}
                 />
-                <AppTitle>{page.title}</AppTitle>
-            </View>))}
+            ))}
         </View>
     );
-
 }
 
 export default AppMenu;
@@ -36,9 +36,11 @@ export default AppMenu;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'baseline',
         flexWrap: 'wrap',
-        padding: 10,
+        padding: 20,
+        gap: 20
     },
 })
