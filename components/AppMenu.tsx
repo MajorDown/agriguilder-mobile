@@ -15,7 +15,8 @@ const AppMenu = (): ReactNode => {
         } else if (member) {
             return page.for === 'member' || page.for === 'user';
         }
-        return false; // si ni admin ni member, on ne retourne rien
+        // return false; // si ni admin ni member, on ne retourne rien
+        return page.for === 'admin' || page.for === 'user'; // pour tester coté admin
     });
 
     return (

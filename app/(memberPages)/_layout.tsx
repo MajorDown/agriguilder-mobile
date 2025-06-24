@@ -35,7 +35,9 @@ export default function MemberPagesLayout() {
           tabBarInactiveTintColor: Colors.global,
           tabBarActiveBackgroundColor: Colors.light,
           tabBarInactiveBackgroundColor: Colors.dark,
-          tabBarStyle: shouldHideTabBar ? { display: 'none' } : { height: 60 },
+          tabBarStyle: 
+            shouldHideTabBar ? { display: 'none' } : // à décommenter pour cacher la tab bar si membre n'est pas connecté
+            { height: 60 },
           headerShown: false,
         };
       }}

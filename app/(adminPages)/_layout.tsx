@@ -35,7 +35,9 @@ export default function AdminPagesLayout() {
           tabBarInactiveTintColor: Colors.global,
           tabBarActiveBackgroundColor: Colors.light,
           tabBarInactiveBackgroundColor: Colors.dark,
-          tabBarStyle: shouldHideTabBar ? { display: 'none' } : { height: 60 },
+          tabBarStyle: 
+            // shouldHideTabBar ? { display: 'none' } : // à décommenter pour cacher la tab bar s admin n'est pas connecté
+            { height: 60 },
           headerShown: false,
         };
       }}
