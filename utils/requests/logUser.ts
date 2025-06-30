@@ -4,6 +4,7 @@ export type logUserProps = {
     userType: 'member' | 'admin';
     userMail: string;
     userPassword: string;
+    deviceId: string
 };
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL_DEV || process.env.EXPO_PUBLIC_API_URL;
@@ -13,6 +14,7 @@ const apiUrl = process.env.EXPO_PUBLIC_API_URL_DEV || process.env.EXPO_PUBLIC_AP
  * @param props.userType - Le type d'utilisateur (membre ou admin)
  * @param props.userMail - L'adresse mail de l'utilisateur
  * @param props.userPassword - Le mot de passe de l'utilisateur
+ * @param props.deviceId - L'identifiant du périphérique de l'utilisateur
  * @returns Un objet contenant les informations de l'utilisateur connecté
  * @throws Une erreur si la connexion échoue ou si la réponse du serveur est invalide
  */
@@ -26,7 +28,7 @@ const logUser = async (props: logUserProps): Promise<ConnectedUser> => {
     });
     if (!response.ok) throw new Error(`Erreur de connexion : ${response.status} ${response.statusText}`);
     const data = await response.json();
-    if (!data || data.error) throw new Error('Erreur dans la réponse du serveur.');
+    if (!data || data.error) throw new Error(`Erreur de connexion : ${data.error || 'Données invalides'}`);
     return data as ConnectedUser;
 };
 

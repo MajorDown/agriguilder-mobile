@@ -26,9 +26,10 @@ class DeviceIdManager {
      * @description Stocke l'identifiant de périphérique de manière sécurisée
      * @param deviceId L'identifiant de périphérique à stocker
      */
-    public static async createAndStoreId(): Promise<void> {
+    public static async createAndStoreId(): Promise<string> {
         const deviceId = this.generateId(); // Génère un nouvel identifiant de périphérique
         await SecureStorenManager.storeDeviceId(deviceId); // Stocke l'identifiant de manière sécurisée
+        return deviceId; // Retourne l'identifiant de périphérique généré
     }
 
 }

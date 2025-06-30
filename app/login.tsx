@@ -6,8 +6,9 @@ import AppTextInput from "@/components/inputs/AppTextInput";
 import AppText from "@/components/texts/AppText";
 import { ConnectedAdmin, ConnectedMember } from "@/constants/Types";
 import { useAppContext } from "@/contexts/AppContext";
-import SecureStoreManager from "@/utils/SecureStoreManager";
+import DeviceIdManager from "@/utils/DeviceIdManager";
 import logUser from "@/utils/requests/logUser";
+import SecureStoreManager from "@/utils/SecureStoreManager";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -28,7 +29,10 @@ const LoginPage = () => {
             return;
         }
         try {
-            const response = await logUser({userType, userMail: email, userPassword: password});
+            // génération et stockage de l'identifiant de périphérique
+            const deviceId = await DeviceIdManager.getId() || await DeviceIdManager.createAndStoreId();
+            // connexion de l'utilisateur
+            const response = await logUser({userType, userMail: email, userPassword: password, deviceId: deviceId});
             if (userType === 'member') {
                 updateMember(response as ConnectedMember);
             } else if (userType === 'admin') {
@@ -37,7 +41,6 @@ const LoginPage = () => {
             await SecureStoreManager.storeUser(response);
             setEmail("");
             setPassword("");
-            setUserType(undefined);
             setError("");
             router.push("/");
         }
