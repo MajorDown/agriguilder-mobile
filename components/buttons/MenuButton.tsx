@@ -10,6 +10,11 @@ type MenuButtonProps = {
     name: string;
 };
 
+/**
+ * @description Composant de bouton de menu pour naviguer entre les différentes pages de l'application.
+ * @param props.for le type de l'utilisateur pour lequel le bouton est affiché
+ * @returns 
+ */
 const MenuButton = (props: MenuButtonProps): ReactNode => {
     const router = useRouter();
     const tab = AppTabs.find(tab => tab.name === props.name) as AppTab;

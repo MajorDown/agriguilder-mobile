@@ -4,6 +4,11 @@ import { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import MenuButton from "./buttons/MenuButton";
 
+/**
+ * @description Composant de menu de l'application qui affiche les boutons de navigation
+ * en fonction du type d'utilisateur (admin, member, user).
+ * @returns {ReactNode} Le composant de menu.
+ */
 const AppMenu = (): ReactNode => {
     const { member, admin } = useAppContext();
 
