@@ -1,4 +1,5 @@
-import { ConnectedUser, GuildConfig, Intervention, Contestation} from '@/constants/Types';
+import { ConnectedUser, Contestation, GuildConfig, Intervention } from '@/constants/Types';
+import DeviceIdManager from '../DeviceIdManager';
 
 export type GetUserDataProps = {
     user: ConnectedUser;
@@ -19,12 +20,16 @@ const apiUrl = process.env.EXPO_PUBLIC_API_URL_DEV || process.env.EXPO_PUBLIC_AP
  * @throws Une erreur si la récupération échoue ou si la réponse du serveur est invalide
  */
 const getUserData = async (props: GetUserDataProps): Promise<GetUserDataResponse>  => {
+    // récupération de l'identifiant de périphérique
+    const deviceId = await DeviceIdManager.getId();
+    if (!deviceId) throw new Error('Identifiant de périphérique introuvable.');
+    // requète de récupération des données utilisateur
     const response = await fetch(`${apiUrl}/data/getUserData`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(props.user),
+        body: JSON.stringify({ user: props.user, deviceId }),
     });
     if (!response.ok) throw new Error(`Erreur de connexion : ${response.status} ${response.statusText}`);
     const data = await response.json();

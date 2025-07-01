@@ -6,7 +6,6 @@ import AppTextInput from "@/components/inputs/AppTextInput";
 import AppText from "@/components/texts/AppText";
 import { ConnectedAdmin, ConnectedMember } from "@/constants/Types";
 import { useAppContext } from "@/contexts/AppContext";
-import DeviceIdManager from "@/utils/DeviceIdManager";
 import logUser from "@/utils/requests/logUser";
 import SecureStoreManager from "@/utils/SecureStoreManager";
 import { useRouter } from "expo-router";
@@ -29,10 +28,8 @@ const LoginPage = () => {
             return;
         }
         try {
-            // génération et stockage de l'identifiant de périphérique
-            const deviceId = await DeviceIdManager.getId() || await DeviceIdManager.createAndStoreId();
             // connexion de l'utilisateur
-            const response = await logUser({userType, userMail: email, userPassword: password, deviceId: deviceId});
+            const response = await logUser({userType, userMail: email, userPassword: password});
             if (userType === 'member') {
                 updateMember(response as ConnectedMember);
             } else if (userType === 'admin') {

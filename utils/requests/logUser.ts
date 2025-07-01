@@ -1,10 +1,10 @@
 import { ConnectedUser } from "@/constants/Types";
+import DeviceIdManager from "@/utils/DeviceIdManager";
 
 export type logUserProps = {
     userType: 'member' | 'admin';
     userMail: string;
     userPassword: string;
-    deviceId: string
 };
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL_DEV || process.env.EXPO_PUBLIC_API_URL;
@@ -19,12 +19,20 @@ const apiUrl = process.env.EXPO_PUBLIC_API_URL_DEV || process.env.EXPO_PUBLIC_AP
  * @throws Une erreur si la connexion échoue ou si la réponse du serveur est invalide
  */
 const logUser = async (props: logUserProps): Promise<ConnectedUser> => {
+    // récupération ou création de l'identifiant de périphérique
+    const deviceId = await DeviceIdManager.getId() || await DeviceIdManager.createAndStoreId();
+    // envoi de la requête de connexion à l'API
     const response = await fetch(`${apiUrl}/user/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(props),
+        body: JSON.stringify({
+            userType: props.userType,
+            userMail: props.userMail,
+            userPassword: props.userPassword,
+            deviceId: deviceId,
+        }),
     });
     if (!response.ok) throw new Error(`Erreur de connexion : ${response.status} ${response.statusText}`);
     const data = await response.json();
