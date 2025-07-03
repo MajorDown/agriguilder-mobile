@@ -15,6 +15,7 @@ import { StyleSheet, View } from "react-native";
 const LoginPage = () => {
     const { updateMember, updateAdmin } = useAppContext();
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -27,6 +28,7 @@ const LoginPage = () => {
             setError("Veuillez renseigner votre rôle, votre mail et mot de passe");
             return;
         }
+        setIsLoading(true);
         try {
             // connexion de l'utilisateur
             const response = await logUser({userType, userMail: email, userPassword: password});
@@ -43,6 +45,9 @@ const LoginPage = () => {
         }
         catch (error) {
             setError(`Erreur de connexion, veuillez réessayer plus tard: ${error}`);
+        }
+        finally {
+            setIsLoading(false);
         }
     }
 
@@ -68,7 +73,8 @@ const LoginPage = () => {
                 onChange={setPassword}
                 value={password} 
             />
-            <AppButton text="Se connecter" onPress={() => {handleLogin()} } type={"light"} />
+            {!isLoading && <AppButton text="Se connecter" onPress={() => {handleLogin()} } type={"light"} />}
+            {isLoading && <AppText>Connexion en cours...</AppText>}
             {error && <AppText type='error'>{error}</AppText>}
         </View>
     </AppPage>)

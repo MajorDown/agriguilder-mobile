@@ -20,7 +20,7 @@ const apiUrl = process.env.EXPO_PUBLIC_API_URL_DEV || process.env.EXPO_PUBLIC_AP
  */
 const logUser = async (props: logUserProps): Promise<ConnectedUser> => {
     // récupération ou création de l'identifiant de périphérique
-    const deviceId = await DeviceIdManager.getId() || await DeviceIdManager.createAndStoreId();
+    const deviceId = await DeviceIdManager.getId() || DeviceIdManager.generate();
     // envoi de la requête de connexion à l'API
     const response = await fetch(`${apiUrl}/user/login`, {
         method: 'POST',
@@ -37,6 +37,7 @@ const logUser = async (props: logUserProps): Promise<ConnectedUser> => {
     if (!response.ok) throw new Error(`Erreur de connexion : ${response.status} ${response.statusText}`);
     const data = await response.json();
     if (!data || data.error) throw new Error(`Erreur de connexion : ${data.error || 'Données invalides'}`);
+    DeviceIdManager.storeId(deviceId); // enregistrement de l'identifiant de périphérique
     return data as ConnectedUser;
 };
 

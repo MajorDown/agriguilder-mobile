@@ -1,4 +1,4 @@
-import SecureStorenManager from "./SecureStoreManager";
+import SecureStoreManager from "./SecureStoreManager";
 
 class DeviceIdManager {
 
@@ -17,7 +17,7 @@ class DeviceIdManager {
      */
     public static async getId(): Promise<string | null> {
         // Vérifie si un identifiant de périphérique est déjà stocké
-        const deviceId = await SecureStorenManager.loadDeviceId();   
+        const deviceId = await SecureStoreManager.loadDeviceId();   
         if (deviceId) return deviceId; // Retourne l'identifiant de périphérique existant
         else return null;    
     }
@@ -28,7 +28,7 @@ class DeviceIdManager {
      */
     public static async createAndStoreId(): Promise<string> {
         const deviceId = this.generateId(); // Génère un nouvel identifiant de périphérique
-        await SecureStorenManager.storeDeviceId(deviceId); // Stocke l'identifiant de manière sécurisée
+        await SecureStoreManager.storeDeviceId(deviceId); // Stocke l'identifiant de manière sécurisée
         return deviceId; // Retourne l'identifiant de périphérique généré
     }
 
