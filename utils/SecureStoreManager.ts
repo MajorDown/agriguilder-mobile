@@ -6,7 +6,6 @@ import * as SecureStore from 'expo-secure-store';
  */
 class SecureStorenManager {
   private static key = 'connected-user-data';
-  private static deviceId = 'device-id'; 
 
   /**
    * Sauvegarde un token de manière sécurisée
@@ -30,22 +29,6 @@ class SecureStorenManager {
    */
   static async clearUser(): Promise<void> {
     await SecureStore.deleteItemAsync(this.key);
-  }
-
-  /**
-   * Sauvegarde un identifiant de périphérique de manière sécurisée
-   * @param deviceId L'identifiant de périphérique à stocker
-   */
-  static async storeDeviceId(deviceId: string): Promise<void> {
-    await SecureStore.setItemAsync(this.deviceId, deviceId);
-  }
-
-  /**
-   * Récupère l'identifiant de périphérique stocké
-   * @returns L'identifiant de périphérique s'il existe, sinon null
-   */
-  static async loadDeviceId(): Promise<string | null> {
-    return await SecureStore.getItemAsync(this.deviceId);
   }
 }
 

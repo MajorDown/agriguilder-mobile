@@ -1,5 +1,5 @@
-import AppContextUpdater from '@/components/AppContextUpdater';
-import { AppContextProvider } from '@/contexts/AppContext';
+import { AdminProvider } from '@/contexts/adminContext';
+import { MemberProvider } from '@/contexts/memberContext';
 import { useFonts } from 'expo-font';
 import * as NavigationBar from 'expo-navigation-bar';
 import { Stack } from 'expo-router';
@@ -28,8 +28,8 @@ export default function RootLayout() {
   }
 
   return (<>
-    <AppContextProvider>
-      <AppContextUpdater />
+      <AdminProvider>
+        <MemberProvider>
       <Stack screenOptions={{headerShown: false}}>
         <Stack.Screen 
           name="index" 
@@ -39,18 +39,19 @@ export default function RootLayout() {
           name="login" 
           options={{ headerShown: false}}
         />
-        <Stack.Screen 
-          name="+not-found" 
-          options={{headerShown: false}}
-        />
-      </Stack>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent
-        animated
-      />
-    </AppContextProvider>
+          <Stack.Screen 
+            name="+not-found" 
+            options={{headerShown: false}}
+          />
+          </Stack>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="transparent"
+            translucent
+            animated
+          />
+        </MemberProvider>
+      </AdminProvider>
   </>
   );
 }

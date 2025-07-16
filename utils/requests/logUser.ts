@@ -1,5 +1,4 @@
 import { ConnectedUser } from "@/constants/Types";
-import DeviceIdManager from "@/utils/DeviceIdManager";
 
 export type logUserProps = {
     userType: 'member' | 'admin';
@@ -7,7 +6,7 @@ export type logUserProps = {
     userPassword: string;
 };
 
-const apiUrl = process.env.EXPO_PUBLIC_API_URL_DEV || process.env.EXPO_PUBLIC_API_URL;
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 /**
  * @description Fonction pour s'authentifier grâce à l'API
@@ -19,25 +18,20 @@ const apiUrl = process.env.EXPO_PUBLIC_API_URL_DEV || process.env.EXPO_PUBLIC_AP
  * @throws Une erreur si la connexion échoue ou si la réponse du serveur est invalide
  */
 const logUser = async (props: logUserProps): Promise<ConnectedUser> => {
-    // récupération ou création de l'identifiant de périphérique
-    const deviceId = await DeviceIdManager.getId() || DeviceIdManager.generate();
     // envoi de la requête de connexion à l'API
-    const response = await fetch(`${apiUrl}/user/login`, {
+    const response = await fetch(`${apiUrl}/${props.userType}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            userType: props.userType,
-            userMail: props.userMail,
-            userPassword: props.userPassword,
-            deviceId: deviceId,
+            mail: props.userMail,
+            password: props.userPassword,
         }),
     });
     if (!response.ok) throw new Error(`Erreur de connexion : ${response.status} ${response.statusText}`);
     const data = await response.json();
-    if (!data || data.error) throw new Error(`Erreur de connexion : ${data.error || 'Données invalides'}`);
-    DeviceIdManager.storeId(deviceId); // enregistrement de l'identifiant de périphérique
+    if (!data || data.error) throw new Error(`Erreur de connexion : ${data.error || 'Données invalides'}`); // enregistrement de l'identifiant de périphérique
     return data as ConnectedUser;
 };
 
