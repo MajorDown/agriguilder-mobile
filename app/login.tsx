@@ -5,7 +5,8 @@ import AppSelect from "@/components/inputs/AppSelect";
 import AppTextInput from "@/components/inputs/AppTextInput";
 import AppText from "@/components/texts/AppText";
 import { ConnectedAdmin, ConnectedMember } from "@/constants/Types";
-import { useAppContext } from "@/contexts/AppContext";
+import { useAdminContext } from "@/contexts/adminContext";
+import { useMemberContext } from "@/contexts/memberContext";
 import logUser from "@/utils/requests/logUser";
 import SecureStoreManager from "@/utils/SecureStoreManager";
 import { useRouter } from "expo-router";
@@ -13,7 +14,9 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 const LoginPage = () => {
-    const { updateMember, updateAdmin } = useAppContext();
+    const { updateMember } = useMemberContext();
+    const { updateAdmin } = useAdminContext();
+
     const router = useRouter();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -34,17 +37,18 @@ const LoginPage = () => {
             const response = await logUser({userType, userMail: email, userPassword: password});
             if (userType === 'member') {
                 updateMember(response as ConnectedMember);
+                await SecureStoreManager.storeMember(response as ConnectedMember);
             } else if (userType === 'admin') {
                 updateAdmin(response as ConnectedAdmin);
+                await SecureStoreManager.storeAdmin(response as ConnectedAdmin);
             }
-            await SecureStoreManager.storeUser(response);
             setEmail("");
             setPassword("");
             setError("");
             router.push("/");
         }
         catch (error) {
-            setError(`Erreur de connexion, veuillez réessayer plus tard: ${error}`);
+            setError(`Erreur de connexion, veuillez réessayer plus tard: ${process.env.EXPO_PUBLIC_API_URL} : ${error}`);
         }
         finally {
             setIsLoading(false);

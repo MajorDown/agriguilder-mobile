@@ -28,30 +28,29 @@ export default function RootLayout() {
   }
 
   return (<>
-      <AdminProvider>
-        <MemberProvider>
-      <Stack screenOptions={{headerShown: false}}>
-        <Stack.Screen 
-          name="index" 
-          options={{ headerShown: false}} 
-        />
-        <Stack.Screen 
-          name="login" 
-          options={{ headerShown: false}}
-        />
+    <AdminProvider>
+      <MemberProvider>
+        <Stack screenOptions={{headerShown: false}}>
+          <Stack.Screen 
+            name="index" 
+            options={{ headerShown: false}} 
+          />
+          <Stack.Screen 
+            name="login" 
+            options={{ headerShown: false}}
+          />
           <Stack.Screen 
             name="+not-found" 
             options={{headerShown: false}}
           />
-          </Stack>
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor="transparent"
-            translucent
-            animated
-          />
-        </MemberProvider>
-      </AdminProvider>
-  </>
-  );
+        </Stack>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent
+          animated
+        />
+      </MemberProvider>
+    </AdminProvider>
+  </>);
 }

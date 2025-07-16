@@ -1,5 +1,6 @@
 import Colors from "@/constants/AppColors";
-import { useAppContext } from "@/contexts/AppContext";
+import { useAdminContext } from "@/contexts/adminContext";
+import { useMemberContext } from "@/contexts/memberContext";
 import { PropsWithChildren } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import Header from "./Header";
@@ -26,7 +27,8 @@ const style = StyleSheet.create({
 });
 
 const AppPage = (props: AppPageProps) => {
-  const { admin, member } = useAppContext();
+  const { admin } = useAdminContext();
+  const { member } = useMemberContext();
 
   return (
     <View style={style.container}>

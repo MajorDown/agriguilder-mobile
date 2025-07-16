@@ -32,6 +32,14 @@ export type ConnectedAdmin = Omit<Admin, 'password'> & { token: string };
 export type AdminContext = {
     admin: ConnectedAdmin | null,
     updateAdmin: (admin: ConnectedAdmin | null) => void,
+    guildMembers: MembersList | null,
+    updateGuildMembers: (members: MembersList | null) => void
+    guildConfig: GuildConfig | null,
+    updateGuildConfig: (guildConfig: GuildConfig | null) => void
+    guildInterventions: MemberInterventions | null,
+    updateGuildInterventions: (interventions: MemberInterventions | null) => void
+    guildContestations: Contestation[] | null,
+    updateGuildContestations: (contestations: Contestation[] | null) => void
 }
 
 // TYPES POUR MEMBER

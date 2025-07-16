@@ -1,35 +1,67 @@
-import { ConnectedUser } from '@/constants/Types';
+import { ConnectedAdmin, ConnectedMember } from '@/constants/Types';
 import * as SecureStore from 'expo-secure-store';
 
 /**
  * @description Classe utilitaire pour gérer le stockage sécurisé du ConnectedUser
  */
-class SecureStorenManager {
-  private static key = 'connected-user-data';
+class SecureStoreManager {
+  private static adminkey = 'connected-user';
+  private static memberkey = 'connected-member';
+
+  // ADMIN
 
   /**
-   * Sauvegarde un token de manière sécurisée
-   * @param token Le token JWT ou similaire à stocker
+   * @description Stocke le ConnectedAdmin de manière sécurisée
+   * @param {ConnectedAdmin} admin - L'objet ConnectedAdmin à stocker
    */
-  static async storeUser(user: ConnectedUser): Promise<void> {
-    await SecureStore.setItemAsync(this.key, JSON.stringify(user));
+  static async storeAdmin(admin: ConnectedAdmin): Promise<void> {
+    await SecureStore.setItemAsync(this.adminkey, JSON.stringify(admin));
   }
 
   /**
-   * Récupère le token stocké
-   * @returns Le token s'il existe, sinon null
-   */
-  static async loadUser(): Promise<ConnectedUser | null> {
-    const jsonData = await SecureStore.getItemAsync(this.key);
+   * @description Charge le ConnectedAdmin stocké de manière sécurisée
+   * @return {Promise<ConnectedAdmin | null>} Le ConnectedAdmin chargé ou null si aucun n'est trouvé
+   * */
+  static async loadAdmin(): Promise<ConnectedAdmin | null> {
+    const jsonData = await SecureStore.getItemAsync(this.adminkey);
     return jsonData ? JSON.parse(jsonData) : null;
   }
 
   /**
-   * Supprime le token stocké
+   * @description Efface le ConnectedAdmin stocké de manière sécurisée
+   * @return {Promise<void>} Une promesse qui se résout lorsque l'effacement est terminé
    */
-  static async clearUser(): Promise<void> {
-    await SecureStore.deleteItemAsync(this.key);
+  static async clearAdmin(): Promise<void> {
+    await SecureStore.deleteItemAsync(this.adminkey);
   }
+
+  // MEMBER
+
+  /**
+   * @description Stocke le ConnectedMember de manière sécurisée
+   * @param {ConnectedMember} member - L'objet ConnectedMember à stocker
+   */
+  static async storeMember(member: ConnectedMember): Promise<void> {
+    await SecureStore.setItemAsync(this.memberkey, JSON.stringify(member));
+  }
+
+  /**
+   * @description Charge le ConnectedMember stocké de manière sécurisée
+   * @return {Promise<ConnectedMember | null>} Le ConnectedMember chargé ou null si aucun n'est trouvé
+   */
+  static async loadMember(): Promise<ConnectedMember | null> {
+    const jsonData = await SecureStore.getItemAsync(this.memberkey);
+    return jsonData ? JSON.parse(jsonData) : null;
+  }
+
+  /**
+   * @description Efface le ConnectedMember stocké de manière sécurisée
+   * @return {Promise<void>} Une promesse qui se résout lorsque l'effacement est terminé
+   */
+  static async clearMember(): Promise<void> {
+    await SecureStore.deleteItemAsync(this.memberkey);
+  }
+
 }
 
-export default SecureStorenManager;
+export default SecureStoreManager;

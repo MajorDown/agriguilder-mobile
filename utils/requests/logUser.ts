@@ -6,7 +6,7 @@ export type logUserProps = {
     userPassword: string;
 };
 
-const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+const apiUrl = process.env.EXPO_PUBLIC_API_URL || 'https://agriguilder.com/api'
 
 /**
  * @description Fonction pour s'authentifier grâce à l'API

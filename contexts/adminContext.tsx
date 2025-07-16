@@ -1,6 +1,8 @@
 'use client'
-import { AdminContext, ConnectedAdmin } from "@/constants/Types";
-import { createContext, PropsWithChildren, ReactNode, useContext, useState } from "react";
+import { AdminContext, ConnectedAdmin, Contestation, GuildConfig, MemberInterventions, MembersList } from "@/constants/Types";
+import { getGuildMembers } from "@/utils/requests/forAdmin/getGuildMembers";
+import { createContext, PropsWithChildren, ReactNode, useContext, useEffect, useState } from "react";
+
 
 /**
  * Contexte utilisé pour fournir et consommer l'état de l'admin connecté
@@ -10,6 +12,14 @@ const adminContext: React.Context<AdminContext> = createContext<AdminContext>(
   {
     admin: null,
     updateAdmin: () => {},
+    guildMembers: null,
+    updateGuildMembers: () => {},
+    guildConfig: null,
+    updateGuildConfig: () => {},
+    guildInterventions: null,
+    updateGuildInterventions: () => {},
+    guildContestations: null,
+    updateGuildContestations: () => {}
   }
 );
 
@@ -33,9 +43,35 @@ export function useAdminContext(): AdminContext {
  */
 export const AdminProvider = (props: PropsWithChildren): ReactNode => {
   const [admin, updateAdmin] = useState<ConnectedAdmin | null>(null);
+  const [guildMembers, updateGuildMembers] = useState<MembersList | null>(null);
+  const [guildConfig, updateGuildConfig] = useState<GuildConfig | null>(null);
+  const [guildInterventions, updateGuildInterventions] = useState<MemberInterventions | null>(null);
+  const [guildContestations, updateGuildContestations] = useState<Contestation[] | null>(null);
+
+  const fetchGuildMembers = async () => {
+    const membersList = await getGuildMembers();
+    if (membersList) updateGuildMembers(membersList);
+    else updateGuildMembers(null);
+  };
+
+  useEffect(() => {
+    fetchGuildMembers();
+  }, [admin]);
 
   return (
-    <adminContext.Provider value={{admin, updateAdmin}}>
+    <adminContext.Provider value={{
+      admin,
+      updateAdmin,
+      guildMembers,
+      updateGuildMembers,
+      guildConfig,
+      updateGuildConfig,
+      guildInterventions,
+      updateGuildInterventions,
+      guildContestations,
+      updateGuildContestations
+
+    }}>
       {props.children}
     </adminContext.Provider>
   );

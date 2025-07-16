@@ -1,5 +1,6 @@
 import PagesLister from "@/constants/PagesLister";
-import { useAppContext } from "@/contexts/AppContext";
+import { useAdminContext } from "@/contexts/adminContext";
+import { useMemberContext } from "@/contexts/memberContext";
 import { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import MenuButton from "./buttons/MenuButton";
@@ -10,7 +11,8 @@ import MenuButton from "./buttons/MenuButton";
  * @returns {ReactNode} Le composant de menu.
  */
 const AppMenu = (): ReactNode => {
-    const { member, admin } = useAppContext();
+    const { member } = useMemberContext();
+    const { admin } = useAdminContext();
 
     // filtrage : si il y a un admin, on affiche les pages pour les admin et user
     // si il y a un member, on affiche les pages pour les membres et user
