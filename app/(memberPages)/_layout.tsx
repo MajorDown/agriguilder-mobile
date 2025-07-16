@@ -1,13 +1,13 @@
 import Colors from '@/constants/AppColors';
 import AppTabs from '@/constants/PagesLister';
-import { useAppContext } from '@/contexts/AppContext';
+import { useMemberContext } from '@/contexts/memberContext';
 import normaliseString from '@/utils/normaliseString';
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Image, Text } from 'react-native';
 
 export default function MemberPagesLayout() {
-  const {member} = useAppContext();
+  const {member} = useMemberContext();
   const memberTabs = AppTabs.filter((tab) => tab.for === 'member' || tab.for === 'user');
 
   return (<>

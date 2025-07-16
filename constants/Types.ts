@@ -58,6 +58,14 @@ export type ConnectedMember = Omit<Member, 'password'> & { token: string };
 export type MemberContext = {
     member: ConnectedMember | null,
     updateMember: (member: ConnectedMember | null) => void
+    interventions: MemberInterventions | null,
+    updateInterventions: (interventions: MemberInterventions | null) => void
+    contestations: Contestation[] | null,
+    updateContestations: (contestations: Contestation[] | null) => void
+    guildConfig: GuildConfig | null,
+    updateGuildConfig: (guildConfig: GuildConfig | null) => void
+    guildMembers: MembersList | null,
+    updateGuildMembers: (members: MembersList | null) => void
 }
 
 export type MembersList = Omit<Member, 'password'>[];

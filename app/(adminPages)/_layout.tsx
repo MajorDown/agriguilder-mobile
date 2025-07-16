@@ -1,13 +1,13 @@
 import Colors from '@/constants/AppColors';
 import AppTabs from '@/constants/PagesLister';
-import { useAppContext } from '@/contexts/AppContext';
+import { useAdminContext } from '@/contexts/adminContext';
 import normaliseString from '@/utils/normaliseString';
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Image, Text } from 'react-native';
 
 export default function AdminPagesLayout() {
-  const {admin} = useAppContext();
+  const {admin} = useAdminContext();
   const adminTabs = AppTabs.filter((tab) => tab.for === 'admin' || tab.for === 'user');
 
   return (<>

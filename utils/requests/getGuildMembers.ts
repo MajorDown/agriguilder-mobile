@@ -1,7 +1,7 @@
 import { ConnectedAdmin, ConnectedMember, MembersList } from "@/constants/Types";
 import SecureStoreManager from "@/utils/SecureStoreManager";
 
-const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+const apiKey = process.env.EXPO_PUBLIC_API_URL || 'https://agriguilder.com/api'
 
 /**
  * récupère une liste des membres de sa guilde.
@@ -16,7 +16,7 @@ export const getGuildMembers = async (): Promise<MembersList | null> => {
         if (!user) {
             throw new Error("Aucun utilisateur connecté");
         }
-        const response = await fetch(`/${apiKey}/guild/${user.guild}`, {
+        const response = await fetch(`${apiKey}/guild/${user.guild}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 'use client'
 import { AdminContext, ConnectedAdmin, Contestation, GuildConfig, MemberInterventions, MembersList } from "@/constants/Types";
-import { getGuildMembers } from "@/utils/requests/forAdmin/getGuildMembers";
+import { getGuildMembers } from "@/utils/requests/getGuildMembers";
 import { createContext, PropsWithChildren, ReactNode, useContext, useEffect, useState } from "react";
 
 
@@ -19,7 +19,9 @@ const adminContext: React.Context<AdminContext> = createContext<AdminContext>(
     guildInterventions: null,
     updateGuildInterventions: () => {},
     guildContestations: null,
-    updateGuildContestations: () => {}
+    updateGuildContestations: () => {},
+    loading: false,
+    setLoading: () => {}
   }
 );
 
@@ -47,6 +49,7 @@ export const AdminProvider = (props: PropsWithChildren): ReactNode => {
   const [guildConfig, updateGuildConfig] = useState<GuildConfig | null>(null);
   const [guildInterventions, updateGuildInterventions] = useState<MemberInterventions | null>(null);
   const [guildContestations, updateGuildContestations] = useState<Contestation[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchGuildMembers = async () => {
     const membersList = await getGuildMembers();
@@ -55,7 +58,9 @@ export const AdminProvider = (props: PropsWithChildren): ReactNode => {
   };
 
   useEffect(() => {
+    setLoading(true);
     fetchGuildMembers();
+    setLoading(false);
   }, [admin]);
 
   return (
@@ -69,7 +74,9 @@ export const AdminProvider = (props: PropsWithChildren): ReactNode => {
       guildInterventions,
       updateGuildInterventions,
       guildContestations,
-      updateGuildContestations
+      updateGuildContestations,
+      loading,
+      setLoading
 
     }}>
       {props.children}
