@@ -4,6 +4,7 @@ import { useMemberContext } from "@/contexts/memberContext";
 import { PropsWithChildren } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import Header from "./Header";
+import LoadMessage from "./LoadMessage";
 import LoginRedirector from "./LoginRedirector";
 import AppText from "./texts/AppText";
 import AppTitle from "./texts/AppTitle";
@@ -47,6 +48,7 @@ const AppPage = (props: AppPageProps) => {
         {props.memberOnly && member && props.children}
         {!props.adminOnly && !props.memberOnly && props.children}
       </ScrollView>
+      <LoadMessage />
     </View>
   );
 };
