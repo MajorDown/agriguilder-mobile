@@ -1,5 +1,6 @@
 'use client'
-import { AdminContext, ConnectedAdmin, Contestation, GuildConfig, MemberInterventions, MembersList } from "@/constants/Types";
+import { AdminContext } from "@/constants/Types";
+import useAdminData from "@/hooks/useAdminData";
 import { getGuildMembers } from "@/utils/requests/getGuildMembers";
 import { createContext, PropsWithChildren, ReactNode, useContext, useEffect, useState } from "react";
 
@@ -26,7 +27,7 @@ const adminContext: React.Context<AdminContext> = createContext<AdminContext>(
 );
 
 /**
- * simplifie l'accès et la mise à jour userContext dans les composants de l'application. 
+ * simplifie l'accès et la mise à jour de adminContext dans les composants de l'application. 
  *
  * @returns {AdminContext} L'état actuel de l'admin et la fonction pour le mettre à jour.
  */
@@ -44,23 +45,24 @@ export function useAdminContext(): AdminContext {
  * @returns {JSX.Element} Un composant Provider qui englobe les enfants avec le contexte de l'admin.
  */
 export const AdminProvider = (props: PropsWithChildren): ReactNode => {
-  const [admin, updateAdmin] = useState<ConnectedAdmin | null>(null);
-  const [guildMembers, updateGuildMembers] = useState<MembersList | null>(null);
-  const [guildConfig, updateGuildConfig] = useState<GuildConfig | null>(null);
-  const [guildInterventions, updateGuildInterventions] = useState<MemberInterventions | null>(null);
-  const [guildContestations, updateGuildContestations] = useState<Contestation[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const { admin, updateAdmin, guildMembers, updateGuildMembers, 
+    guildConfig, updateGuildConfig, guildInterventions, updateGuildInterventions, 
+    guildContestations, updateGuildContestations } = useAdminData();
 
-  const fetchGuildMembers = async () => {
+  const fetchData = async () => {
+    setLoading(true)
+    // Récupération des membres de la guilde
     const membersList = await getGuildMembers();
-    if (membersList) updateGuildMembers(membersList);
-    else updateGuildMembers(null);
+    updateGuildMembers(membersList || null)
+    // Récupération de la configuration de la guilde
+    // Récupération des interventions des membres de la guilde
+    // Récupération des contestations de la guilde
+    setLoading(false);
   };
 
   useEffect(() => {
-    setLoading(true);
-    fetchGuildMembers();
-    setLoading(false);
+    fetchData();
   }, [admin]);
 
   return (
