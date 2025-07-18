@@ -24,31 +24,35 @@ const style = StyleSheet.create({
     justifyContent: 'flex-start',
     padding: 0,
     backgroundColor: Colors.dark,
+  },
+  content: {
+    width: '90%',
   }
 });
 
 const AppPage = (props: AppPageProps) => {
-  const { admin } = useAdminContext();
-  const { member } = useMemberContext();
+  const adminCtxt = useAdminContext();
+  const memberCtxt = useMemberContext();
+  const isLoading = adminCtxt.loading && memberCtxt.loading;
 
   return (
     <View style={style.container}>
       <Header />
-      <ScrollView>
+      {isLoading && <LoadMessage />}
+      {!isLoading && <ScrollView style={style.content}>
         <AppTitle>{props.title}</AppTitle>
-        {props.adminOnly && !admin && <>
+        {props.adminOnly && !adminCtxt.admin && <>
           <AppText>Cette page est réservé aux admin.</AppText>
           <LoginRedirector />
         </>}
-        {props.memberOnly && !member && <>
+        {props.memberOnly && !memberCtxt.member && <>
           <AppText>Cette page est réservé aux membres.</AppText>
           <LoginRedirector />
         </>}
-        {props.adminOnly && admin && props.children}
-        {props.memberOnly && member && props.children}
+        {props.adminOnly && adminCtxt.admin && props.children}
+        {props.memberOnly && memberCtxt.member && props.children}
         {!props.adminOnly && !props.memberOnly && props.children}
-      </ScrollView>
-      <LoadMessage />
+      </ScrollView>}
     </View>
   );
 };

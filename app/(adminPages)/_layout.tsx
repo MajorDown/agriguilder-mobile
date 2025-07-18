@@ -7,9 +7,11 @@ import React from 'react';
 import { Image, Text } from 'react-native';
 
 export default function AdminPagesLayout() {
-  const {admin} = useAdminContext();
+  const {admin, guildConfig} = useAdminContext();
   const adminTabs = AppTabs.filter((tab) => tab.for === 'admin' || tab.for === 'user');
 
+  console.log('guildconfig dans AdminPagesLayout :', guildConfig);
+  
   return (<>
     {<Tabs
       screenOptions={({ route }) => {

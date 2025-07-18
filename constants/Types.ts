@@ -40,6 +40,8 @@ export type AdminContext = {
     updateGuildInterventions: (interventions: MemberInterventions | null) => void
     guildContestations: Contestation[] | null,
     updateGuildContestations: (contestations: Contestation[] | null) => void
+    loading: boolean,
+    setLoading: (loading: boolean) => void
 }
 
 // TYPES POUR MEMBER
@@ -66,6 +68,8 @@ export type MemberContext = {
     updateGuildConfig: (guildConfig: GuildConfig | null) => void
     guildMembers: MembersList | null,
     updateGuildMembers: (members: MembersList | null) => void
+    loading: boolean,
+    setLoading: (loading: boolean) => void
 }
 
 export type MembersList = Omit<Member, 'password'>[];

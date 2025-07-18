@@ -1,9 +1,14 @@
 import AppPage from '@/components/AppPage';
-import { Text } from 'react-native';
+import ToolCard from '@/components/outils/ToolCard';
+import { useAdminContext } from '@/contexts/adminContext';
 
 const Outils = () => {
+    const { guildConfig } = useAdminContext();
+
     return (<AppPage adminOnly title="Les outils de la guilde">
-        <Text>page des outils</Text>
+        {guildConfig?.config.map((tool) => (
+            <ToolCard key={tool.option} tool={tool} />
+        ))}
     </AppPage>)
 }
 

@@ -2,7 +2,6 @@
 import { AdminContext } from "@/constants/Types";
 import useAdminData from "@/hooks/useAdminData";
 import getGuildContestations from "@/utils/requests/forAdmin/getGuildContestations";
-import getGuildInterventions from "@/utils/requests/forAdmin/getGuildInterventions";
 import getGuildConfig from "@/utils/requests/getGuildConfig";
 import { getGuildMembers } from "@/utils/requests/getGuildMembers";
 import { createContext, PropsWithChildren, ReactNode, useContext, useEffect, useState } from "react";
@@ -58,13 +57,13 @@ export const AdminProvider = (props: PropsWithChildren): ReactNode => {
       setLoading(true)
       // Récupération des membres de la guilde
       const membersList = await getGuildMembers();
-      updateGuildMembers(membersList || null)
+      updateGuildMembers(membersList || null);
       // Récupération de la configuration de la guilde
       const config = await getGuildConfig(admin);
       updateGuildConfig(config || null);
       // Récupération des interventions des membres de la guilde
-      const interventions = await getGuildInterventions(admin);
-      updateGuildInterventions(interventions || null);
+      // const interventions = await getGuildInterventions(admin);
+      // updateGuildInterventions(interventions || null);
       // Récupération des contestations de la guilde
       const contestations = await getGuildContestations(admin);
       updateGuildContestations(contestations || null);
