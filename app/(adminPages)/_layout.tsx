@@ -9,8 +9,6 @@ import { Image, Text } from 'react-native';
 export default function AdminPagesLayout() {
   const {admin, guildConfig} = useAdminContext();
   const adminTabs = AppTabs.filter((tab) => tab.for === 'admin' || tab.for === 'user');
-
-  console.log('guildconfig dans AdminPagesLayout :', guildConfig);
   
   return (<>
     {<Tabs

@@ -11,7 +11,6 @@ type ToolListerProps = {
 const ToolLister = (props: ToolListerProps): ReactNode => {
     const { guildConfig } = useAdminContext();
 
-    console.log('config dans ToolLister :', guildConfig);
     return (<View style={style.container}>
         {guildConfig?.config.map((tool) => (
             <ToolCard 
@@ -30,5 +29,6 @@ const style = StyleSheet.create({
         marginVertical: 10,
         width: '100%',
         gap: 10
+
     }
 })

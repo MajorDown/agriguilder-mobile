@@ -1,5 +1,5 @@
 import Colors from '@/constants/AppColors';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Animated, StyleSheet, Text, TextInput, Vibration, View } from 'react-native';
 
 export type AppTextInputProps = {
@@ -14,7 +14,7 @@ export type AppTextInputProps = {
  * 
  * @description Composant d'input de texte réutilisable avec gestion d'erreur, vibration et animation deluxe.
  */
-const AppTextInput = (props: AppTextInputProps) => {
+const AppTextInput = (props: AppTextInputProps):ReactNode => {
     const [value, setValue] = useState<string>(props.value || '');
     const [error, setError] = useState<string | null>(null);
     const shakeAnimation = useState(new Animated.Value(0))[0];
@@ -95,7 +95,9 @@ const styles = StyleSheet.create({
         zIndex: 1
     },
     label: {
+        fontFamily: 'Montserrat',
         fontSize: 16,
+        fontWeight: '700',
         marginBottom: 5,
         color: Colors.global,
         zIndex: 1

@@ -136,6 +136,8 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 16,
+        fontFamily: "Montserrat",
+        fontWeight: "700",
         marginBottom: 5,
         color: Colors.global,
     },
