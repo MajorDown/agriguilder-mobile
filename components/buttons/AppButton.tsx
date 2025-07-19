@@ -2,7 +2,7 @@ import Colors from "@/constants/AppColors";
 import { Pressable, StyleSheet, Text } from "react-native";
 
 export type AppButtonProps = {
-    type: 'light' | 'dark';
+    type: 'light' | 'green' | 'dark';
     text: string;
     onPress: () => void;
 }
@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
     light: {
         backgroundColor: Colors.light,
         color: Colors.dark,
+    },
+    green: {
+        backgroundColor: Colors.green,
+        color: Colors.global,
     },
     dark: {
         backgroundColor: Colors.dark,
