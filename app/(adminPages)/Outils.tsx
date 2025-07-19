@@ -1,8 +1,7 @@
-import AppModal from '@/components/AppModal';
 import AppPage from '@/components/AppPage';
 import AppButton from '@/components/buttons/AppButton';
+import ToolForm from '@/components/forms/ToolForm';
 import ToolLister from '@/components/lists/ToolLister';
-import AppText from '@/components/texts/AppText';
 import { Tool } from '@/constants/Types';
 import { useState } from 'react';
 
@@ -22,9 +21,11 @@ const Outils = () => {
     }
 
     return (<AppPage adminOnly title="Les outils de la guilde">
-        {wantToolForm && <AppModal visible={wantToolForm} onClose={() => setWantToolForm(false)} title={toolToEdit.option}>
-            <AppText>Contenu du modal</AppText>
-        </AppModal>}
+        {wantToolForm && <ToolForm
+            initialTool={toolToEdit}
+            visible={wantToolForm}
+            onClose={() => setWantToolForm(false)}
+        />}
         <AppButton 
             type="light" 
             onPress={() => handleGetToolForm()} 

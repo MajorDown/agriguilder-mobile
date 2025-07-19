@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
         padding: 10,
         justifyContent: 'center',
         alignItems: 'center',
+        margin: 'auto'
     },
     light: {
         backgroundColor: Colors.light,

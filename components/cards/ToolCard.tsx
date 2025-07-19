@@ -38,7 +38,6 @@ const styles= StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         padding: 10,
-
     },
     text: {
         color: AppColors.dark,
@@ -52,10 +51,8 @@ const styles= StyleSheet.create({
     enableBtn: {
         width: '10%',
         justifyContent: 'center',
-        borderTopLeftRadius: 20,
-        borderBottomLeftRadius: 20,
-        borderTopRightRadius: 20,
-        borderBottomRightRadius: 20,
+        borderRadius: 5,
+        overflow: 'hidden',
     },
     actif: {
         textAlign: 'center',

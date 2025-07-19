@@ -1,6 +1,6 @@
+import AppColors from "@/constants/AppColors";
 import { ReactNode } from "react";
-import { Modal, StyleSheet, View } from "react-native";
-import AppButton from "./buttons/AppButton";
+import { Modal, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import AppText from "./texts/AppText";
 
 type AppModalProps = {
@@ -8,40 +8,43 @@ type AppModalProps = {
     onClose: () => void;
     children: ReactNode;
     title?: string;
-}
+};
 
-const AppModal = (props: AppModalProps): ReactNode => {
+const AppModal = ({ visible, onClose, children, title }: AppModalProps): ReactNode => {
     return (<Modal
-        visible={props.visible}
-        animationType="slide"
-        transparent={true}
+        visible={visible}
+        animationType="fade"
+        transparent
         statusBarTranslucent
-
     >
-        <View style={styles.overlay}>
-            {props.title && <AppText>{props.title}</AppText>}
-            <View style={styles.container}>
-                <AppButton type='light' onPress={() => props.onClose()} text='X' />
-                {props.children}
+        <TouchableWithoutFeedback onPress={onClose}>
+            <View style={styles.overlay}>
+                <TouchableWithoutFeedback>
+                    <View style={styles.container}>
+                        {title && <AppText>{title}</AppText>}
+                        {children}
+                    </View>
+                </TouchableWithoutFeedback>
             </View>
-        </View>
-    </Modal>)
-}
+        </TouchableWithoutFeedback>
+    </Modal>);
+};
 
 export default AppModal;
 
 const styles = StyleSheet.create({
     overlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0.67)',
         justifyContent: 'center',
         alignItems: 'center',
     },
     container: {
-        width: '80%',
-        backgroundColor: 'white',
+        width: '90%',
+        backgroundColor: AppColors.dark,
         borderRadius: 10,
-        padding: 20,
+        padding: 10,
         elevation: 5,
+        gap: 10
     }
 })
