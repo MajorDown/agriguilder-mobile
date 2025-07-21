@@ -7,10 +7,17 @@ import AppText from "../texts/AppText";
 
 type ToolListerProps = {
     onToolEdit: (tool: Tool) => void;
+    onDeleteTool?: (tool: Tool) => void; // Fonction pour supprimer un outil
     onSelectedToolsChange?: (selectedTools: Tool[]) => void;
     mode: 'edit' | 'select';
 }
 
+/**
+ * @description Composant pour lister les outils de la guilde.
+ * @params {function} onToolEdit - Fonction appelée lors de la modification d'un outil.
+ * @param {function} onSelectedToolsChange - Fonction appelée lors de la sélection des outils.
+ * @param {string} mode - 'select' ou 'edit'.
+ */
 const ToolLister = (props: ToolListerProps): ReactNode => {
     const { guildConfig } = useAdminContext();
     const [selectedTools, setSelectedTools] = useState<Tool[]>([]) // Si vous avez besoin de gérer la sélection des outils
@@ -45,6 +52,7 @@ const ToolLister = (props: ToolListerProps): ReactNode => {
                 onPress={(tool) => props.onToolEdit(tool)}
                 mode={props.mode}
                 onSelect={(isSelected) => handleToolSelection(tool, isSelected)}
+                onDelete={() => props.onDeleteTool?.(tool)}
             />
         ))}
     </View>)

@@ -18,6 +18,8 @@ type ToolFormProps = {
 
 /**
  * @description Formulaire pour créer ou modifier un outil de la guilde.
+ * @param {Tool} initialTool - L'outil à modifier ou un objet vide pour en créer un nouveau.
+ * @param {boolean} visible - Indique si le formulaire est visible.
  */
 const ToolForm = (props: ToolFormProps): ReactNode => {
     const {admin, guildConfig, updateGuildConfig} = useAdminContext();
@@ -92,7 +94,7 @@ const ToolForm = (props: ToolFormProps): ReactNode => {
             <View style={style.buttons}>
                 <AppButton 
                     type="light" 
-                    text={props.initialTool ? "Modifier l'outil" : "Créer l'outil"}
+                    text={props.initialTool.option != '' ? "Modifier l'outil" : "Créer l'outil"}
                     onPress={() => handleSubmit()}
                 />
                 <AppButton

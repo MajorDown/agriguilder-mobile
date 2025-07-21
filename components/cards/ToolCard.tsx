@@ -8,12 +8,17 @@ type ToolCardProps = {
     onPress: (tool: Tool) => void
     mode: 'edit' | 'select'; // 'edit' pour modifier, 'view' pour visualiser
     onSelect: (isSelected: boolean) => void; // Indique si l'outil est sélectionné
+    onDelete?: () => void; 
 }
 
 /**
  * @description Composant pour afficher une carte d'outil de la guilde.
- * Permet de visualiser les détails de l'outil et de le modifier.
- */
+ * @param {Tool} tool - L'outil à afficher.
+ * @param {function} onPress - Fonction appelée lors de la pression sur la carte.
+ * @param {string} mode - 'edit' pour modifier, 'select' pour sélectionner.
+ * @param {function} onSelect - Fonction appelée pour indiquer si l'outil est sélectionné.
+ * @param {boolean} isSelected - Indique si l'outil est sélectionné.
+ **/
 const ToolCard = (props: ToolCardProps): ReactNode => {
     const [isSelected, setIsSelected] = useState<boolean>(false);
 
@@ -24,6 +29,11 @@ const ToolCard = (props: ToolCardProps): ReactNode => {
             props.onSelect(newSelectedState); // Appel de la fonction de sélection avec la nouvelle valeur
         }
     }
+
+    const handleDelete = () => {
+        props.onDelete?.();
+    }
+        
 
     return (<View style={styles.card}>
         <Pressable 
@@ -44,7 +54,7 @@ const ToolCard = (props: ToolCardProps): ReactNode => {
         </Pressable>
         {props.mode === 'edit' && <Pressable
             style={styles.deleteBtn}
-            onPress={() => props.onPress(props.tool)}
+            onPress={() => handleDelete()}
         >
             <Image
                 source={require('@/assets/images/icons/delete-white-green.png')}
