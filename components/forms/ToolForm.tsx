@@ -16,6 +16,9 @@ type ToolFormProps = {
     onClose: () => void;
 }
 
+/**
+ * @description Formulaire pour créer ou modifier un outil de la guilde.
+ */
 const ToolForm = (props: ToolFormProps): ReactNode => {
     const {admin, guildConfig, updateGuildConfig} = useAdminContext();
     const [toolToEdit, setToolToEdit] = useState<Tool>(props.initialTool);
@@ -86,11 +89,18 @@ const ToolForm = (props: ToolFormProps): ReactNode => {
                     thumbColor={toolToEdit.enabled ? Colors.ok : Colors.error}
                 />
             </View>
-            <AppButton 
-                type="light" 
-                text={props.initialTool ? "Modifier l'outil" : "Créer l'outil"}
-                onPress={() => handleSubmit()}
-            />
+            <View style={style.buttons}>
+                <AppButton 
+                    type="light" 
+                    text={props.initialTool ? "Modifier l'outil" : "Créer l'outil"}
+                    onPress={() => handleSubmit()}
+                />
+                <AppButton
+                    type={'green'}
+                    text={'Annuler'}
+                    onPress={() => props.onClose()}
+                />              
+            </View>
             {error && <AppText type={"error"}>{error}</AppText>}
         </View>      
     </AppModal>)
@@ -111,5 +121,12 @@ const style = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 10
+    },
+    buttons: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 10,
     }
 })

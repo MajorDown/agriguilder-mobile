@@ -31,7 +31,10 @@ const Outils = () => {
             onPress={() => handleGetToolForm()} 
             text={'Créer un nouvel outils'} 
         />
-        <ToolLister onToolEdit={(tool: Tool) => handleGetToolForm(tool)} />
+        <ToolLister
+            mode='edit' 
+            onToolEdit={(tool: Tool) => handleGetToolForm(tool)} 
+        />
     </AppPage>)
 }
 

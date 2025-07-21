@@ -1,30 +1,66 @@
 import AppColors from "@/constants/AppColors";
 import { Tool } from "@/constants/Types";
-import { ReactNode } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { ReactNode, useState } from "react";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 type ToolCardProps = {
     tool: Tool
     onPress: (tool: Tool) => void
+    mode: 'edit' | 'select'; // 'edit' pour modifier, 'view' pour visualiser
+    onSelect: (isSelected: boolean) => void; // Indique si l'outil est sélectionné
 }
 
+/**
+ * @description Composant pour afficher une carte d'outil de la guilde.
+ * Permet de visualiser les détails de l'outil et de le modifier.
+ */
 const ToolCard = (props: ToolCardProps): ReactNode => {
-    return (<Pressable 
-        style={styles.card}
-        onPress={() => props.onPress(props.tool)}
-    >
-        <View style={styles.name}>
-            <Text style={styles.text}>{props.tool.option}</Text>
-        </View>
-        <View style={styles.coef}>
-            <Text style={styles.text}>x{props.tool.coef}</Text>
-        </View>
-        <View style={[styles.enableBtn, props.tool.enabled ? styles.actif : styles.inactif]}>
-            <Text style={[styles.text, props.tool.enabled ? styles.actif : styles.inactif]}>
-                Actif
-            </Text>
-        </View>
-    </Pressable>)
+    const [isSelected, setIsSelected] = useState<boolean>(false);
+
+    const handleSelect = () => {
+        if (props.mode === 'select') {
+            const newSelectedState = !isSelected;
+            setIsSelected(newSelectedState);
+            props.onSelect(newSelectedState); // Appel de la fonction de sélection avec la nouvelle valeur
+        }
+    }
+
+    return (<View style={styles.card}>
+        <Pressable 
+            style={styles.updateBtn}
+            onPress={() => props.onPress(props.tool)}
+        >
+            {props.mode === 'edit' && <View style={[styles.isEnable, props.tool.enabled ? styles.actif : styles.inactif]}>
+                <Text style={[styles.text, props.tool.enabled ? styles.actif : styles.inactif]}>
+                    {props.tool.enabled ? 'Actif' : 'Inactif'}
+                </Text>
+            </View>}
+            <View style={styles.name}>
+                <Text style={styles.text}>{props.tool.option}</Text>
+            </View>
+            <View style={styles.coef}>
+                <Text style={styles.text}>x{props.tool.coef}</Text>
+            </View>
+        </Pressable>
+        {props.mode === 'edit' && <Pressable
+            style={styles.deleteBtn}
+            onPress={() => props.onPress(props.tool)}
+        >
+            <Image
+                source={require('@/assets/images/icons/delete-white-green.png')}
+                style={{ width: 24, height: 24 }}
+            />
+        </Pressable>}
+        {props.mode === 'select' && <Pressable style={styles.selectBtn} onPress={() => handleSelect()}>
+            {isSelected ? <Image
+                source={require('@/assets/images/icons/selected.png')}
+                style={{ width: 24, height: 24 }}
+            /> : <Image
+                source={require('@/assets/images/icons/unselected.png')}
+                style={{ width: 24, height: 24 }}
+            />}
+        </Pressable>}
+    </View>)
 }
 
 export default ToolCard;
@@ -39,6 +75,21 @@ const styles= StyleSheet.create({
         width: '100%',
         padding: 10,
     },
+    updateBtn: {
+        backgroundColor: AppColors.light,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '85%',
+        paddingVertical: 10,
+    },
+    isEnable: {
+        width: '15%',
+        justifyContent: 'center',
+        borderRadius: 5,
+        overflow: 'hidden',
+    },
     text: {
         color: AppColors.dark,
     },
@@ -46,22 +97,25 @@ const styles= StyleSheet.create({
         width: '40%',
     },
     coef: {
-        width: '10%',
+        width: '20%',
     },
-    enableBtn: {
-        width: '10%',
+    selectBtn: {
+        width: '15%',
+        alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 5,
-        overflow: 'hidden',
     },
     actif: {
         textAlign: 'center',
-        backgroundColor: AppColors.ok,
-        textDecorationLine: 'none',
+        backgroundColor: AppColors.ok
     },
     inactif: {
         textAlign: 'center',
         backgroundColor: AppColors.error,
-        textDecorationLine: 'line-through',
     },
+    deleteBtn: {
+        width: '10%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: AppColors.light,
+    }
 })
