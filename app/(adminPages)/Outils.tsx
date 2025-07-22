@@ -27,7 +27,6 @@ const Outils = () => {
         setToolToEdit(tool);
     }
 
-
     return (<AppPage adminOnly title="Les outils de la guilde">
         {wantToolForm && <ToolForm
             initialTool={toolToEdit}
