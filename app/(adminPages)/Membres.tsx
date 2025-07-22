@@ -1,6 +1,5 @@
 import AppPage from '@/components/AppPage';
-import MemberCard from '@/components/cards/MemberCard';
-import AppText from '@/components/texts/AppText';
+import MemberLister from '@/components/lists/MemberLister';
 
 const exemple = {
     name: 'John Doe',
@@ -15,8 +14,7 @@ const Membres = () => {
         adminOnly 
         title="Les membres de la guilde"
     >
-        <AppText>page des membres de la guilde</AppText>
-        <MemberCard member={exemple} mode="view" />
+        <MemberLister mode="view" />
     </AppPage>)
 }
 

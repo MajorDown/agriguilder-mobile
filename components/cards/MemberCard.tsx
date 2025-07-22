@@ -13,7 +13,7 @@ type MemberCardProps = {
 
 const MemberCard = (props: MemberCardProps): ReactNode => {
     return (<View style={styles.card}>
-        <Pressable style={styles.updateBtn}>
+        <View style={styles.infos}>
             <View style={styles.nameAndContact}>
                 <Text style={[styles.text, styles.name]}>{props.member.name}</Text>
                 <Text style={[styles.text, styles.contact]}>{props.member.mail} - {props.member.phone}</Text>
@@ -23,11 +23,14 @@ const MemberCard = (props: MemberCardProps): ReactNode => {
                     props.member.counter > 0 ? styles.positif : props.member.counter < 0 ? styles.negatif : {}
                 ]}
             >
-                <Text style={[styles.text]}>{props.member.counter} points</Text>
+                <Text style={[styles.text]}>{props.member.counter.toFixed(2)} points</Text>
             </View>
-        </Pressable>
-        {props.mode === 'edit' && props.onDelete && <Pressable onPress={() => props.onDelete?.(props.member)}>
-            <Image source={require('@/assets/images/icons/delete-white-green.png')} />
+        </View>
+        {props.mode === 'edit' && <Pressable style={styles.deleteBtn} onPress={() => props.onDelete?.(props.member)}>
+            <Image 
+                source={require('@/assets/images/icons/delete-white-green.png')}
+                style={{ width: 24, height: 24 }} 
+            />
         </Pressable>}
     </View>);
 }
@@ -42,8 +45,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    updateBtn: {
-        width: '85%',
+    infos: {
+        width: '90%',
         padding: 10,
         flexDirection: 'row',
         alignItems: 'center',
@@ -53,7 +56,7 @@ const styles = StyleSheet.create({
         width: '75%',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
     },
     text: {
         fontFamily: 'Montserrat',
@@ -61,17 +64,18 @@ const styles = StyleSheet.create({
         color: AppColors.dark,
     },
     name: {
-        fontSize: 18,
+        fontSize: 16,
     },
     contact: {
         fontSize: 12,
     },
     solde: {
-        width: '25%',
+        // width: '25%',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5,
         overflow: 'hidden',
+        marginHorizontal: 'auto',
     },
     positif: {
         backgroundColor: AppColors.ok,
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
         backgroundColor: AppColors.error,
     },
     deleteBtn: {
-        width: '15%',
+        width: '10%',
         alignItems: 'center',
         justifyContent: 'center',
     },
