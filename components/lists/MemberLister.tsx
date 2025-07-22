@@ -1,8 +1,10 @@
+import Colors from "@/constants/AppColors";
 import { useAdminContext } from "@/contexts/adminContext";
 import { ReactNode, useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Switch, View } from "react-native";
 import MemberCard from "../cards/MemberCard";
 import AppSelect from "../inputs/AppSelect";
+import AppText from "../texts/AppText";
 
 type MemberListerProps = {
     mode: 'edit' | 'view';
@@ -11,6 +13,7 @@ type MemberListerProps = {
 
 const MemberLister = (props: MemberListerProps): ReactNode => {
     const { guildMembers } = useAdminContext();
+    const [wantnullishcounter, setWantNullishCounter] = useState<boolean>(false);
     const [orderBy, setOrderBy] = useState<'byName' | 'bycountasc' | 'bycountDesc'>('byName');
     const [orderedMembers, setOrderedMembers] = useState(guildMembers || []);
 
@@ -30,12 +33,29 @@ const MemberLister = (props: MemberListerProps): ReactNode => {
         }
     }, [orderBy, guildMembers]);
 
+    useEffect(() => {
+        if (!wantnullishcounter) {
+            setOrderedMembers((guildMembers ?? []).filter(member => member.counter != 0));
+        } else {
+            setOrderedMembers(guildMembers ?? []);
+        }
+    }, [wantnullishcounter, guildMembers]);
+
     return (<View style={Styles.container}>
         <AppSelect
             placeholder="Sélectionnez un filtre"
             options={options}
             onSelect={(value: string | number) => setOrderBy(value as 'byName' | 'bycountasc' | 'bycountDesc')}
         />
+        <View style={Styles.switchContainer}>
+            <Switch
+                value={wantnullishcounter}
+                onValueChange={(value) => setWantNullishCounter(value)}
+                trackColor={{ false: Colors.light, true: Colors.light }}
+                thumbColor={wantnullishcounter ? Colors.ok : Colors.error}
+            />
+            <AppText>Masquer les membres dont le compteur est à zéro</AppText>
+        </View>
         {orderedMembers?.map((member) => (
             <MemberCard 
                 key={member.mail} 
@@ -56,5 +76,11 @@ const Styles = StyleSheet.create({
         marginVertical: 10,
         width: '100%',
         gap: 10
+    },
+    switchContainer: {
+        width: '65%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })
