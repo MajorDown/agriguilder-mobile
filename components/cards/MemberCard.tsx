@@ -3,12 +3,10 @@ import { Member } from "@/constants/Types";
 import { ReactNode } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-type MemberForList = Omit<Member, 'password'>;
-
 type MemberCardProps = {
-    member: MemberForList
+    member: Member
     mode: 'edit' | 'view'; // 'edit' pour modifier, 'view' pour visualiser
-    onDelete?: (member: MemberForList) => void
+    onDelete?: (member: Member) => void
 }
 
 const MemberCard = (props: MemberCardProps): ReactNode => {

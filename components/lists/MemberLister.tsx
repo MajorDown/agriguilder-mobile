@@ -9,7 +9,7 @@ import AppText from "../texts/AppText";
 
 type MemberListerProps = {
     mode: 'edit' | 'view';
-    onDeleteMember?: (member: Omit<Member, 'password'>) => void;
+    onDeleteMember?: (member: Member) => void;
 }
 
 const MemberLister = (props: MemberListerProps): ReactNode => {
@@ -60,7 +60,7 @@ const MemberLister = (props: MemberListerProps): ReactNode => {
         {orderedMembers?.map((member) => (
             <MemberCard 
                 key={member.mail} 
-                member={member} 
+                member={member as Member} 
                 mode={props.mode}
                 onDelete={(member) => props.onDeleteMember?.(member)}
             />

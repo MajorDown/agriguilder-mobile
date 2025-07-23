@@ -1,20 +1,41 @@
 import AppPage from '@/components/AppPage';
+import AppButton from '@/components/buttons/AppButton';
+import CreateMemberForm from '@/components/forms/CreateMemberForm';
+import DeleteMemberForm from '@/components/forms/DeleteMemberForm';
 import MemberLister from '@/components/lists/MemberLister';
-
-const exemple = {
-    name: 'John Doe',
-    mail: 'john.doe@example.com',
-    phone: '1234567890',
-    counter: 5.25,
-    guild: 'Guilde des Explorateurs',
-}
+import { Member } from '@/constants/Types';
+import { useState } from 'react';
 
 const Membres = () => {
-    return (<AppPage 
-        adminOnly 
-        title="Les membres de la guilde"
+    const [wantDeleteMemberForm, setWantDeleteMemberForm] = useState<boolean>(false);
+    const [memberToDelete, setMemberToDelete] = useState<Member | null>(null);
+    const [wantCreateMemberForm, setWantCreateMemberForm] = useState<boolean>(false);
+    return (<AppPage
+        title='Les membres de la guilde'
+        adminOnly
     >
-        <MemberLister mode="edit" />
+        <AppButton 
+            type={'light'} 
+            text='Créer un nouveau membre' 
+            onPress={() => setWantCreateMemberForm(true)}
+        />
+        <MemberLister mode="edit" onDeleteMember={(member) => {
+            setMemberToDelete(member);
+            setWantDeleteMemberForm(true);
+        }} />
+        {wantDeleteMemberForm && (
+            <DeleteMemberForm
+                memberToDelete={memberToDelete!}
+                visible={wantDeleteMemberForm}
+                onClose={() => setWantDeleteMemberForm(false)}
+            />
+        )}
+        {wantCreateMemberForm && (
+            <CreateMemberForm
+                visible={wantCreateMemberForm}
+                onClose={() => setWantCreateMemberForm(false)}
+            />
+        )}
     </AppPage>)
 }
 
