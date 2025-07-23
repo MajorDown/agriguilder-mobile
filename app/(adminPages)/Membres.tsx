@@ -14,7 +14,7 @@ const Membres = () => {
         adminOnly 
         title="Les membres de la guilde"
     >
-        <MemberLister mode="view" />
+        <MemberLister mode="edit" />
     </AppPage>)
 }
 

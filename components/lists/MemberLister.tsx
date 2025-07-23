@@ -1,4 +1,5 @@
 import Colors from "@/constants/AppColors";
+import { Member } from "@/constants/Types";
 import { useAdminContext } from "@/contexts/adminContext";
 import { ReactNode, useEffect, useState } from "react";
 import { StyleSheet, Switch, View } from "react-native";
@@ -8,7 +9,7 @@ import AppText from "../texts/AppText";
 
 type MemberListerProps = {
     mode: 'edit' | 'view';
-    onSelectedMembersChange?: (selectedMembers: string[]) => void; // Fonction pour gérer les membres sélectionnés
+    onDeleteMember?: (member: Omit<Member, 'password'>) => void;
 }
 
 const MemberLister = (props: MemberListerProps): ReactNode => {
@@ -61,7 +62,7 @@ const MemberLister = (props: MemberListerProps): ReactNode => {
                 key={member.mail} 
                 member={member} 
                 mode={props.mode}
-                onDelete={(member) => {}}
+                onDelete={(member) => props.onDeleteMember?.(member)}
             />
         ))}
     </View>)
@@ -78,7 +79,7 @@ const Styles = StyleSheet.create({
         gap: 10
     },
     switchContainer: {
-        width: '65%',
+        width: '60%',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
