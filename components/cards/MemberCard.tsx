@@ -77,9 +77,13 @@ const styles = StyleSheet.create({
     },
     positif: {
         backgroundColor: AppColors.ok,
+        borderRadius: 5,
+        paddingHorizontal: 5,
     },
     negatif: {
         backgroundColor: AppColors.error,
+        borderRadius: 5,
+        paddingHorizontal: 5,
     },
     deleteBtn: {
         width: '10%',

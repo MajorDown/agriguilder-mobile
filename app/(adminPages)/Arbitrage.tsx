@@ -1,6 +1,7 @@
 import AppPage from '@/components/AppPage';
+import ContestationCard from '@/components/cards/ContestationCard';
 import { useAdminContext } from '@/contexts/adminContext';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 const Arbitrage = () => {
     const {guildInterventions, guildContestations} = useAdminContext();
@@ -10,7 +11,9 @@ const Arbitrage = () => {
         title="Arbitrage des contestations"
     >
         <View>
-            <Text>page pour gérer les contestations</Text>
+            {guildContestations && guildContestations.map((contestation) => (
+                <ContestationCard key={contestation.contestationDate} contestation={contestation} />
+            ))}
         </View>
     </AppPage>)
 }
