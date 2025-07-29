@@ -1,14 +1,16 @@
 import AppColors from "@/constants/AppColors";
 import { Contestation } from "@/constants/Types";
 import normaliseDate from "@/utils/normaliseDate";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 type ContestationCardProps = {
     contestation: Contestation
+    onEdit: (contestation: Contestation) => void; // Fonction pour éditer la contestation
 }
 
 const ContestationCard = (props: ContestationCardProps) => {
-    return (<View style={Styles.card}>
+
+    return (<Pressable onPress={() => props.onEdit(props.contestation)} style={Styles.card}>
         <View style={Styles.col}>
             <Text style={Styles.text}>le {normaliseDate(props.contestation.contestationDate)} par {props.contestation.contester}</Text>
             <Text style={Styles.text}>"{props.contestation.contesterMessage}"</Text>
@@ -21,7 +23,7 @@ const ContestationCard = (props: ContestationCardProps) => {
                 {props.contestation.adminConclusion}
             </Text>
         </View>
-    </View>)
+    </Pressable>)
 }
 
 export default ContestationCard;

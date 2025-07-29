@@ -1,7 +1,7 @@
 import AppPage from '@/components/AppPage';
-import ContestationCard from '@/components/cards/ContestationCard';
+import ContestationLister from '@/components/lists/ContestationLister';
 import { useAdminContext } from '@/contexts/adminContext';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const Arbitrage = () => {
     const {guildInterventions, guildContestations} = useAdminContext();
@@ -10,11 +10,9 @@ const Arbitrage = () => {
         adminOnly 
         title="Arbitrage des contestations"
     >
-        <View>
-            {guildContestations && guildContestations.map((contestation) => (
-                <ContestationCard key={contestation.contestationDate} contestation={contestation} />
-            ))}
-        </View>
+        <ContestationLister onEdit={(editedContestation) => {
+            // Handle the edit action here
+        }} />
     </AppPage>)
 }
 
