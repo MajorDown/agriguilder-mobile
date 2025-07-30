@@ -44,7 +44,6 @@ const CreateMemberForm = (props: CreateMemberFormProps): ReactNode => {
             props.onClose();
         } catch (error) {
             setError("Erreur lors de la création du membre");
-            console.error("Erreur lors de la création du membre:", error);
         }
     }
 

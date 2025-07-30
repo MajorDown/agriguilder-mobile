@@ -1,7 +1,7 @@
 import Colors from "@/constants/AppColors";
 import { Contestation } from "@/constants/Types";
 import { useAdminContext } from "@/contexts/adminContext";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { StyleSheet, Switch, View } from "react-native";
 import ContestationCard from "../cards/ContestationCard";
 import AppText from "../texts/AppText";
@@ -10,7 +10,7 @@ type ContestationListerProps = {
     onEdit: (contestation: Contestation) => void
 }
 
-const ContestationLister = (props: ContestationListerProps) => {
+const ContestationLister = (props: ContestationListerProps): ReactNode => {
     const { guildContestations } = useAdminContext();
     const [wantResolvedContestations, setWantResolvedContestations] = useState<boolean>(true);
     const [filteredContestations, setFilteredContestations] = useState<Contestation[]>(guildContestations || []);
@@ -25,26 +25,24 @@ const ContestationLister = (props: ContestationListerProps) => {
         setFilteredContestations(filtered);
     }, [guildContestations, wantResolvedContestations]);
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.switchContainer}>
-                <Switch
-                    value={wantResolvedContestations}
-                    onValueChange={(value) => setWantResolvedContestations(value)}
-                    trackColor={{ false: Colors.light, true: Colors.light }}
-                    thumbColor={wantResolvedContestations ? Colors.ok : Colors.error}
-                />
-                <AppText>Masquer les Contestations déjà résolues</AppText>
-            </View>
-            {filteredContestations && filteredContestations.map((contestation) => (
-                <ContestationCard
-                    key={contestation.contestationDate}
-                    contestation={contestation}
-                    onEdit={(editedContestation) => props.onEdit(editedContestation)}
-                />
-            ))}
+    return (<View style={styles.container}>
+        <View style={styles.switchContainer}>
+            <Switch
+                value={wantResolvedContestations}
+                onValueChange={(value) => setWantResolvedContestations(value)}
+                trackColor={{ false: Colors.light, true: Colors.light }}
+                thumbColor={wantResolvedContestations ? Colors.ok : Colors.error}
+            />
+            <AppText>Masquer les Contestations déjà résolues</AppText>
         </View>
-    );
+        {filteredContestations && filteredContestations.map((contestation) => (
+            <ContestationCard
+                key={contestation.contestationDate}
+                contestation={contestation}
+                onEdit={(editedContestation) => props.onEdit(editedContestation)}
+            />
+        ))}
+    </View>);
 }
 
 export default ContestationLister;
