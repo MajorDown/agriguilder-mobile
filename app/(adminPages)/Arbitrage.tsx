@@ -1,18 +1,31 @@
 import AppPage from '@/components/AppPage';
+import EditContestationForm from '@/components/forms/EditContestationForm';
 import ContestationLister from '@/components/lists/ContestationLister';
-import { useAdminContext } from '@/contexts/adminContext';
+import { Contestation } from '@/constants/Types';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 const Arbitrage = () => {
-    const {guildInterventions, guildContestations} = useAdminContext();
+    const [wantEditContestation, setWantEditContestation] = useState<boolean>(false);
+    const [contestationToEdit, setContestationToEdit] = useState<Contestation | null>(null);
+
+    const handleEditContestation = (contestation: Contestation) => {
+        setContestationToEdit(contestation);
+        setWantEditContestation(true);
+    }
 
     return (<AppPage 
-        adminOnly 
         title="Arbitrage des contestations"
+        adminOnly 
     >
-        <ContestationLister onEdit={(editedContestation) => {
-            // Handle the edit action here
-        }} />
+        <ContestationLister onEdit={handleEditContestation} />
+        {wantEditContestation && contestationToEdit !== null && (
+            <EditContestationForm
+                contestationToEdit={contestationToEdit}
+                visible={wantEditContestation}
+                onClose={() => setWantEditContestation(false)}
+            />
+        )}
     </AppPage>)
 }
 
