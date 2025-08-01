@@ -7,6 +7,7 @@ import AppButton from "../buttons/AppButton";
 import AppDateInput from "../inputs/AppDateInput";
 import AppNumberInput from "../inputs/AppNumberInput";
 import AppSelect from "../inputs/AppSelect";
+import AppToolSelect from "../inputs/AppToolSelect";
 import AppText from "../texts/AppText";
 
 type EditContestationFormProps = {
@@ -16,7 +17,7 @@ type EditContestationFormProps = {
 }
 
 const EditContestationForm = (props: EditContestationFormProps): ReactNode => {
-    const {admin, guildMembers, updateGuildMembers} = useAdminContext();
+    const {admin, guildMembers, guildConfig, updateGuildMembers} = useAdminContext();
     const [correctedDeclaration, setCorrectedDeclaration] = useState<Intervention>(props.contestationToEdit.contestedIntervention);
     const [error, setError] = useState<string | null>(null);
 
@@ -54,6 +55,13 @@ const EditContestationForm = (props: EditContestationFormProps): ReactNode => {
                     label="Nombre d'heure déclarées"
                     value={correctedDeclaration.hours}
                     onChange={(value: number | null) => setCorrectedDeclaration({ ...correctedDeclaration, hours: value ?? 0 })}
+                />
+                <AppToolSelect
+                    guildOptions={guildConfig?.config ?? []}
+                    initialSelectedOptions={correctedDeclaration.options.map(option =>
+                        typeof option === "string" ? option : option.option
+                    )}
+                    selectedOptions={(selected) => setCorrectedDeclaration({ ...correctedDeclaration, options: selected })}
                 />
             </View>
             <View style={styles.buttons}>
