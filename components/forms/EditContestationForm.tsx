@@ -16,18 +16,34 @@ type EditContestationFormProps = {
     onClose: () => void;
 }
 
+type Confirmation = 'none' | 'pending' | 'confirmed';
+
 const EditContestationForm = (props: EditContestationFormProps): ReactNode => {
     const {admin, guildMembers, guildConfig, updateGuildMembers} = useAdminContext();
     const [correctedDeclaration, setCorrectedDeclaration] = useState<Intervention>(props.contestationToEdit.contestedIntervention);
     const [error, setError] = useState<string | null>(null);
+    const [editConfirmation, setEditConfirmation] = useState<Confirmation>('none');
+    const [deleteConfirmation, setDeleteConfirmation] = useState<Confirmation>('none');
 
     const handleEditContestation = async (): Promise<void> => {
         if (!props.contestationToEdit) return;
-
         try {
             props.onClose();
+            // logique pour statuer la contestation
         } catch (err) {
             setError("Une erreur est survenue lors de la mise à jour de la contestation.");
+            setEditConfirmation('none');
+        }
+    }
+
+    const handleDeleteDeclaration = async (): Promise<void> => {
+        if (!props.contestationToEdit) return;
+        try {
+            // Logique pour supprimer la déclaration et statuer la contestation
+            props.onClose();
+        } catch (err) {
+            setError("Une erreur est survenue lors de la suppression de la déclaration.");
+            setDeleteConfirmation('none');
         }
     }
 
@@ -42,9 +58,8 @@ const EditContestationForm = (props: EditContestationFormProps): ReactNode => {
             <View style={styles.inputs}>
                 <AppDateInput
                     label="Date de l'intervention"
-                    value={props.contestationToEdit.contestationDate}
-                    onChange={(date) => setCorrectedDeclaration({ ...correctedDeclaration, declarationDate: date })}
-                />
+                    value={props.contestationToEdit.contestedIntervention.interventionDate}
+                    onChange={(date) => setCorrectedDeclaration({ ...correctedDeclaration, interventionDate: date })} />
                 <AppText>Bénéficiaire de l'intervention</AppText>
                 {guildMembers &&<AppSelect
                     options={guildMembers.map(member => ({ label: member.name, value: member.name }))}
@@ -65,16 +80,41 @@ const EditContestationForm = (props: EditContestationFormProps): ReactNode => {
                 />
             </View>
             <View style={styles.buttons}>
-                <AppButton
-                    type="light"
-                    text={"Créer"}
-                    onPress={() => handleEditContestation()}
-                />
+                {editConfirmation === 'none' &&
+                    <AppButton
+                        type="light"
+                        text={"modifier"}
+                        onPress={() => setEditConfirmation('pending')}
+                    />
+                }
+                {editConfirmation === 'pending' && <>
+                    <AppText>/!\\ vérifiez vos modification avant de confirmer</AppText>
+                    <AppButton
+                        type="light"
+                        text={"Créer"}
+                        onPress={() => handleEditContestation()}
+                    />
+                </>}
                 <AppButton
                     type={'green'}
                     text={'Annuler'}
                     onPress={() => props.onClose()}
                 />              
+                {deleteConfirmation === 'none' &&
+                    <AppButton
+                        type="light"
+                        text={"supprimer la déclaration"}
+                        onPress={() => setDeleteConfirmation('pending')}
+                    />
+                }
+                {deleteConfirmation === 'pending' && <>
+                    <AppText> /!\\ Êtes-vous sur de vouloir supprimer cette déclaration ?</AppText>
+                    <AppButton
+                        type="light"
+                        text={"confirmer la suppression"}
+                        onPress={() => handleDeleteDeclaration()}
+                    />
+                </>}
             </View>
             {error && <AppText type={"error"}>{error}</AppText>}
         </View>         

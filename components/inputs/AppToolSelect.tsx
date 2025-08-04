@@ -87,18 +87,18 @@ const styles = StyleSheet.create({
     },
     optionsList: {
         paddingVertical: 8,
-        gap: 8,
+        gap: 5,
     },
     option: {
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "#eee",
+        backgroundColor: AppColors.global,
         padding: 10,
         marginHorizontal: 8,
-        borderRadius: 8,
+        borderColor: AppColors.dark,
     },
     checkedOption: {
-        backgroundColor: "#cde8d0",
+        backgroundColor: AppColors.light,
     },
     checkIcon: {
         fontSize: 16,
