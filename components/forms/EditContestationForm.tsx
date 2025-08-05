@@ -1,5 +1,6 @@
 import { Contestation, Intervention } from "@/constants/Types";
 import { useAdminContext } from "@/contexts/adminContext";
+import { ruleContestation } from "@/utils/requests/forAdmin/ruleContestation";
 import { ReactNode, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import AppModal from "../AppModal";
@@ -7,6 +8,7 @@ import AppButton from "../buttons/AppButton";
 import AppDateInput from "../inputs/AppDateInput";
 import AppNumberInput from "../inputs/AppNumberInput";
 import AppSelect from "../inputs/AppSelect";
+import AppTextInput from "../inputs/AppTextInput";
 import AppToolSelect from "../inputs/AppToolSelect";
 import AppText from "../texts/AppText";
 
@@ -19,22 +21,30 @@ type EditContestationFormProps = {
 type Confirmation = 'none' | 'pending' | 'confirmed';
 
 const EditContestationForm = (props: EditContestationFormProps): ReactNode => {
-    const {admin, guildMembers, guildConfig, updateGuildMembers} = useAdminContext();
+    const {admin, guildMembers, guildConfig} = useAdminContext();
     const [correctedDeclaration, setCorrectedDeclaration] = useState<Intervention>(props.contestationToEdit.contestedIntervention);
+    const [adminConclusion, setAdminConclusion] = useState<"accordé" | "refusé">("accordé");
+    const [adminMessage, setAdminMessage] = useState<string>(props.contestationToEdit.adminMessage || '');
     const [error, setError] = useState<string | null>(null);
     const [editConfirmation, setEditConfirmation] = useState<Confirmation>('none');
     const [deleteConfirmation, setDeleteConfirmation] = useState<Confirmation>('none');
 
     const handleEditContestation = async (): Promise<void> => {
-        if (!props.contestationToEdit) return;
+        if (!props.contestationToEdit || !admin) return;
         try {
+            await ruleContestation(admin, {
+                ...props.contestationToEdit,
+                contestedIntervention: correctedDeclaration,
+                adminConclusion: adminConclusion,
+                adminMessage: adminMessage
+            });
             props.onClose();
-            // logique pour statuer la contestation
         } catch (err) {
+            console.error(err);
             setError("Une erreur est survenue lors de la mise à jour de la contestation.");
             setEditConfirmation('none');
         }
-    }
+    };
 
     const handleDeleteDeclaration = async (): Promise<void> => {
         if (!props.contestationToEdit) return;
@@ -77,6 +87,24 @@ const EditContestationForm = (props: EditContestationFormProps): ReactNode => {
                         typeof option === "string" ? option : option.option
                     )}
                     selectedOptions={(selected) => setCorrectedDeclaration({ ...correctedDeclaration, options: selected })}
+                />
+                <AppText>Conclusion de l’admin</AppText>
+                <AppSelect
+                    options={[
+                        { label: "Accorder la contestation", value: "accordé" },
+                        { label: "Refuser la contestation", value: "refusé" }
+                    ]}
+                    defaultValue={{
+                        label: adminConclusion === "accordé" ? "Accorder la contestation" : "Refuser la contestation",
+                        value: adminConclusion
+                    }}
+                    onSelect={(value: string | number) => setAdminConclusion(value as "accordé" | "refusé")}
+                />
+                <AppText>Message pour le contesteur (optionnel)</AppText>
+                <AppTextInput
+                    placeholder="Votre message"
+                    value={adminMessage}
+                    onChange={(text) => setAdminMessage(text)}
                 />
             </View>
             <View style={styles.buttons}>
