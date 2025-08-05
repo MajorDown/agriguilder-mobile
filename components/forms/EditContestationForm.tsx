@@ -1,5 +1,6 @@
 import { Contestation, Intervention } from "@/constants/Types";
 import { useAdminContext } from "@/contexts/adminContext";
+import { deleteDeclaration } from "@/utils/requests/forAdmin/deleteDeclaration";
 import { ruleContestation } from "@/utils/requests/forAdmin/ruleContestation";
 import { ReactNode, useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -47,15 +48,16 @@ const EditContestationForm = (props: EditContestationFormProps): ReactNode => {
     };
 
     const handleDeleteDeclaration = async (): Promise<void> => {
-        if (!props.contestationToEdit) return;
+        if (!props.contestationToEdit || !admin) return;
         try {
-            // Logique pour supprimer la déclaration et statuer la contestation
+            await deleteDeclaration(admin, props.contestationToEdit.contestationDate);
             props.onClose();
         } catch (err) {
+            console.error(err);
             setError("Une erreur est survenue lors de la suppression de la déclaration.");
             setDeleteConfirmation('none');
         }
-    }
+    };
 
     return (<AppModal
         title={`Contestation de ${props.contestationToEdit.contester} concernant la déclaration ${props.contestationToEdit.contestedIntervention.declarationDate}`}
