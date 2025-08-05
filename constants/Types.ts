@@ -41,7 +41,8 @@ export type AdminContext = {
     guildContestations: Contestation[] | null,
     updateGuildContestations: (contestations: Contestation[] | null) => void
     loading: boolean,
-    setLoading: (loading: boolean) => void
+    setLoading: (loading: boolean) => void,
+    refetchAll?: () => Promise<void>;
 }
 
 // TYPES POUR MEMBER

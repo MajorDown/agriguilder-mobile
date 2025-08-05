@@ -22,7 +22,7 @@ type EditContestationFormProps = {
 type Confirmation = 'none' | 'pending' | 'confirmed';
 
 const EditContestationForm = (props: EditContestationFormProps): ReactNode => {
-    const {admin, guildMembers, guildConfig} = useAdminContext();
+    const {admin, guildMembers, guildConfig, refetchAll} = useAdminContext();
     const [correctedDeclaration, setCorrectedDeclaration] = useState<Intervention>(props.contestationToEdit.contestedIntervention);
     const [adminConclusion, setAdminConclusion] = useState<"accordé" | "refusé">("accordé");
     const [adminMessage, setAdminMessage] = useState<string>(props.contestationToEdit.adminMessage || '');
@@ -40,6 +40,7 @@ const EditContestationForm = (props: EditContestationFormProps): ReactNode => {
                 adminMessage: adminMessage
             });
             props.onClose();
+            await refetchAll?.(); // Recharger les données après la modification
         } catch (err) {
             console.error(err);
             setError("Une erreur est survenue lors de la mise à jour de la contestation.");
@@ -52,6 +53,7 @@ const EditContestationForm = (props: EditContestationFormProps): ReactNode => {
         try {
             await deleteDeclaration(admin, props.contestationToEdit.contestationDate);
             props.onClose();
+            await refetchAll?.();
         } catch (err) {
             console.error(err);
             setError("Une erreur est survenue lors de la suppression de la déclaration.");

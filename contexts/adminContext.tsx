@@ -97,7 +97,8 @@ export const AdminProvider = (props: PropsWithChildren): ReactNode => {
       guildContestations,
       updateGuildContestations,
       loading,
-      setLoading
+      setLoading,
+      refetchAll: fetchData
     }}>
       {props.children}
     </adminContext.Provider>
