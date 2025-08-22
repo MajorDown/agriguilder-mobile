@@ -13,6 +13,11 @@ export type AppTextInputProps = {
 /**
  * 
  * @description Composant d'input de texte réutilisable avec gestion d'erreur, vibration et animation deluxe.
+ * @params props.label - Le label du champ
+ * @params props.placeholder - Le texte d'invite du champ
+ * @params props.value - La valeur actuelle du champ
+ * @params props.onChange - Fonction appelée lors du changement de valeur
+ * @params props.required - Indique si le champ est requis
  */
 const AppTextInput = (props: AppTextInputProps):ReactNode => {
     const [value, setValue] = useState<string>(props.value || '');

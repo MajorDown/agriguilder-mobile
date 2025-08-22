@@ -8,6 +8,12 @@ type ContestationCardProps = {
     onEdit: (contestation: Contestation) => void; // Fonction pour éditer la contestation
 }
 
+/**
+ * @description Carte affichant une contestation
+ * @param props.contestation - La contestation à afficher
+ * @param props.onEdit - Fonction pour éditer la contestation
+ * @returns 
+ */
 const ContestationCard = (props: ContestationCardProps) => {
 
     return (<Pressable onPress={() => props.onEdit(props.contestation)} style={Styles.card}>

@@ -29,6 +29,11 @@ export type AppSelectProps = {
   placeholder?: string;
 };
 
+/**
+ * @description Composant de sélection d'option
+ * @param param0 - Les propriétés du composant
+ * @returns {ReactNode} Le rendu du composant
+ */
 const AppSelect = ({
   options,
   onSelect,

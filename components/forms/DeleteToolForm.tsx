@@ -13,6 +13,13 @@ type DeleteToolFormProps = {
     onClose: () => void;
 }
 
+/**
+ * @description Formulaire de suppression d'un outil
+ * @param props.toolToDelete - L'outil à supprimer
+ * @param props.visible - Indique si le formulaire est visible
+ * @param props.onClose - Fonction à appeler pour fermer le formulaire
+ * @returns 
+ */
 const DeleteToolForm = (props: DeleteToolFormProps): ReactNode => {
     const {admin, guildConfig, updateGuildConfig} = useAdminContext();
     const [error, setError] = useState<string | null>(null);

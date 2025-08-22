@@ -21,6 +21,12 @@ export type AppNumberInputProps = {
 
 /**
  * @description Input numérique réutilisable avec gestion d’erreur, vibration et animation.
+ * @param props.label - Le label du champ
+ * @param props.placeholder - Le texte d'invite du champ
+ * @param props.value - La valeur actuelle du champ
+ * @param props.onChange - Fonction appelée lors du changement de valeur
+ * @param props.required - Indique si le champ est requis
+ * @param props.allowDecimal - Indique si les décimales sont autorisées
  */
 const AppNumberInput = ({
     label,

@@ -9,6 +9,13 @@ type MemberCardProps = {
     onDelete?: (member: Member) => void
 }
 
+/**
+ * @description Carte affichant un membre
+ * @param props.member - Le membre à afficher
+ * @param props.mode - Le mode d'affichage ('edit' pour modifier, 'view' pour visualiser)
+ * @param props.onDelete - Fonction pour supprimer le membre (optionnel, uniquement en mode 'edit')
+ * @returns 
+ */
 const MemberCard = (props: MemberCardProps): ReactNode => {
     return (<View style={styles.card}>
         <View style={styles.infos}>

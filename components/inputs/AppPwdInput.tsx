@@ -12,6 +12,11 @@ export type AppPwdInputProps = {
 
 /**
  * @description Input mot de passe réutilisable avec affichage/masquage, animation shake, et vérif champ requis.
+ * @param props.label - Le label du champ
+ * @param props.placeholder - Le texte d'invite du champ
+ * @param props.value - La valeur actuelle du champ
+ * @param props.onChange - Fonction appelée lors du changement de valeur
+ * @param props.required - Indique si le champ est requis
  */
 const AppPwdInput = (props: AppPwdInputProps) => {
   const [value, setValue] = useState<string>(props.value || '');

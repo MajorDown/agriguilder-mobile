@@ -14,6 +14,12 @@ type CreateMemberFormProps = {
     onClose: () => void;
 }
 
+/**
+ * @description Formulaire de création d'un membre
+ * @param props.visible - Indique si le formulaire est visible
+ * @param props.onClose - Fonction à appeler pour fermer le formulaire
+ * @return ReactNode
+ */
 const CreateMemberForm = (props: CreateMemberFormProps): ReactNode => {
     const {admin, guildMembers, updateGuildMembers} = useAdminContext();
     const [firstName, setFirstName] = useState<string>('');

@@ -13,6 +13,13 @@ type DeleteMemberFormProps = {
     onClose: () => void;
 }
 
+/**
+ * @description Formulaire de suppression d'un membre
+ * @param props.memberToDelete - Le membre à supprimer
+ * @param props.visible - Indique si le formulaire est visible
+ * @param props.onClose - Fonction à appeler pour fermer le formulaire
+ * @returns 
+ */
 const DeleteMemberForm = (props: DeleteMemberFormProps): ReactNode => {
     const {admin, guildMembers, updateGuildMembers} = useAdminContext();
     const [error, setError] = useState<string | null>(null);

@@ -21,6 +21,13 @@ type EditContestationFormProps = {
 
 type Confirmation = 'none' | 'pending' | 'confirmed';
 
+/**
+ * @description Formulaire d'édition d'une contestation
+ * @param props.contestationToEdit - La contestation à éditer
+ * @param props.visible - Indique si le formulaire est visible
+ * @param props.onClose - Fonction à appeler pour fermer le formulaire
+ * @returns 
+ */
 const EditContestationForm = (props: EditContestationFormProps): ReactNode => {
     const {admin, guildMembers, guildConfig, refetchAll} = useAdminContext();
     const [correctedDeclaration, setCorrectedDeclaration] = useState<Intervention>(props.contestationToEdit.contestedIntervention);

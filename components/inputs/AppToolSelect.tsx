@@ -8,6 +8,11 @@ export type AppToolSelectProps = {
     selectedOptions: (selected: string[]) => void;
 };
 
+/**
+ * Composant de sélection d'outils
+ * @param param0 - Les propriétés du composant
+ * @returns {ReactNode} Le rendu du composant
+ */
 const AppToolSelect = ({
     guildOptions,
     initialSelectedOptions = [],

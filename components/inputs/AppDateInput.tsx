@@ -27,6 +27,11 @@ const formatDate = (date: Date): string => {
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 };
 
+/**
+ * @description Composant de sélection de date
+ * @param {DateInputProps} param0 - Les propriétés du composant
+ * @returns {ReactNode} Le rendu du composant
+ */
 const DateInput = ({ value, onChange, label }: DateInputProps) => {
     const [day, setDay] = useState(1);
     const [month, setMonth] = useState(1);
