@@ -10,6 +10,11 @@ type ContestationListerProps = {
     onEdit: (contestation: Contestation) => void
 }
 
+/**
+ * @description Liste les contestations d'un serveur
+ * @param props - Les propriétés du composant
+ * @returns {ReactNode} Le rendu du composant
+ */
 const ContestationLister = (props: ContestationListerProps): ReactNode => {
     const { guildContestations } = useAdminContext();
     const [wantResolvedContestations, setWantResolvedContestations] = useState<boolean>(true);

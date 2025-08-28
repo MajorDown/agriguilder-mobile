@@ -12,6 +12,11 @@ type MemberListerProps = {
     onDeleteMember?: (member: Member) => void;
 }
 
+/**
+ * @description Liste les membres d'un serveur
+ * @param props - Les propriétés du composant
+ * @returns {ReactNode} Le rendu du composant
+ */
 const MemberLister = (props: MemberListerProps): ReactNode => {
     const { guildMembers } = useAdminContext();
     const [wantnullishcounter, setWantNullishCounter] = useState<boolean>(false);
