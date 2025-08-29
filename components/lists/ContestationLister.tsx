@@ -20,8 +20,6 @@ const ContestationLister = (props: ContestationListerProps): ReactNode => {
     const [wantResolvedContestations, setWantResolvedContestations] = useState<boolean>(true);
     const [filteredContestations, setFilteredContestations] = useState<Contestation[]>(guildContestations || []);
 
-    console.log(guildContestations)
-
     useEffect(() => {
         const filtered: Contestation[] = (guildContestations ?? []).filter(contestation => {
             if (wantResolvedContestations) {

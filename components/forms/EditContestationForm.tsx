@@ -130,7 +130,7 @@ const EditContestationForm = (props: EditContestationFormProps): ReactNode => {
                     <AppText>/!\\ vérifiez vos modification avant de confirmer</AppText>
                     <AppButton
                         type="light"
-                        text={"Créer"}
+                        text={"Confirmer"}
                         onPress={() => handleEditContestation()}
                     />
                 </>}
@@ -182,8 +182,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     buttons: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
         width: '100%',
+        gap: 10
     }
 });
