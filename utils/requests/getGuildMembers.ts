@@ -4,8 +4,7 @@ import SecureStoreManager from "@/utils/SecureStoreManager";
 const apiKey = process.env.EXPO_PUBLIC_API_URL || 'https://agriguilder.com/api'
 
 /**
- * récupère une liste des membres de sa guilde.
- * 
+ * @description récupère une liste des membres de sa guilde.
  * @param {ConnectedAdmin | ConnectedMember} user - L'objet contenant les informations de connexion.
  **/
 export const getGuildMembers = async (): Promise<MembersList | null> => {
