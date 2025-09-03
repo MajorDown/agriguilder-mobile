@@ -1,6 +1,6 @@
 import AppPage from '@/components/AppPage';
 import AppButton from '@/components/buttons/AppButton';
-import UpdatePassword from '@/components/forms/updatePassword';
+import UpdatePassword from '@/components/forms/UpdatePasswordForm';
 import { useAdminContext } from '@/contexts/adminContext';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';

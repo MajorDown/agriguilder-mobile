@@ -1,60 +1,43 @@
 import Colors from '@/constants/AppColors';
-import { useEffect, useState } from 'react';
-import { Animated, Image, StyleSheet, Text, TextInput, TouchableOpacity, Vibration, View } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { Animated, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export type AppPwdInputProps = {
   label?: string;
   placeholder?: string;
   value?: string;
   onChange?: (text: string) => void;
+  isSecured?: (isSecure: boolean) => void;
   required?: boolean;
 };
 
-/**
- * @description Input mot de passe réutilisable avec affichage/masquage, animation shake, et vérif champ requis.
- * @param props.label - Le label du champ
- * @param props.placeholder - Le texte d'invite du champ
- * @param props.value - La valeur actuelle du champ
- * @param props.onChange - Fonction appelée lors du changement de valeur
- * @param props.required - Indique si le champ est requis
- */
+/** Au moins 1 minuscule, 1 majuscule, 1 chiffre, 1 caractère spécial, longueur ≥ 12 */
+const STRONG_PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}$/;
+
 const AppPwdInput = (props: AppPwdInputProps) => {
   const [value, setValue] = useState<string>(props.value || '');
-  const [error, setError] = useState<string | null>(null);
   const [secure, setSecure] = useState<boolean>(true);
   const shakeAnimation = useState(new Animated.Value(0))[0];
 
   useEffect(() => {
-    if (props.value !== undefined) {
-      setValue(props.value);
-    }
+    if (props.value !== undefined) setValue(props.value);
   }, [props.value]);
+
+  const isStrong = useMemo(() => STRONG_PWD_REGEX.test(value), [value]);
+
+  // Fond rouge si non fort ET (champ rempli OU required)
+  const showInsecureBg = useMemo(
+    () => (!isStrong && (value.length > 0 || !!props.required)),
+    [isStrong, value.length, props.required]
+  );
+
+  useEffect(() => {
+    props.isSecured?.(isStrong);
+  }, [isStrong, props]);
 
   const handleChange = (text: string) => {
     setValue(text);
-    if (props.onChange) {
-      props.onChange(text);
-    }
-  };
-
-  const triggerShake = () => {
-    shakeAnimation.setValue(0);
-    Animated.spring(shakeAnimation, {
-      toValue: 1,
-      friction: 3,
-      tension: 50,
-      useNativeDriver: true,
-    }).start(() => shakeAnimation.setValue(0));
-  };
-
-  const handleBlur = () => {
-    if (props.required && !value) {
-      setError('Ce champ est requis');
-      Vibration.vibrate(100);
-      triggerShake();
-    } else {
-      setError(null);
-    }
+    props.onChange?.(text);
   };
 
   return (
@@ -78,18 +61,27 @@ const AppPwdInput = (props: AppPwdInputProps) => {
         <TextInput
           value={value}
           onChangeText={handleChange}
-          onBlur={handleBlur}
           placeholder={props.placeholder || 'Votre mot de passe...'}
           secureTextEntry={secure}
-          style={[styles.input, error && styles.inputError, { flex: 1 }]}
-          accessible={true}
+          style={[
+            styles.input,
+            { flex: 1 },
+            showInsecureBg && styles.inputInsecureBg,
+          ]}
+          accessible
           accessibilityLabel={props.label}
+          autoCapitalize="none"
+          autoCorrect={false}
+          textContentType="password"
         />
         <TouchableOpacity onPress={() => setSecure(!secure)} style={styles.toggle}>
-          {secure ? <Image source={require('@/assets/images/icons/visible_on.png')} /> : <Image source={require('@/assets/images/icons/visible_off.png')} />}
+          {secure ? (
+            <Image source={require('@/assets/images/icons/visible_on.png')} />
+          ) : (
+            <Image source={require('@/assets/images/icons/visible_off.png')} />
+          )}
         </TouchableOpacity>
       </Animated.View>
-      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 };
@@ -102,35 +94,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 300,
     backgroundColor: Colors.global,
-    zIndex: 1
+    zIndex: 1,
   },
   label: {
     fontSize: 16,
     marginBottom: 5,
     color: Colors.global,
-    zIndex: 1
+    zIndex: 1,
   },
   input: {
     backgroundColor: Colors.global,
     padding: 5,
     fontSize: 16,
     width: '100%',
-    zIndex: 1
+    zIndex: 1,
   },
-  inputError: {
-    borderColor: Colors.error,
-    zIndex: 1
-  },
-  errorText: {
-    color: Colors.error,
-    fontSize: 12,
-    marginTop: 5,
-    zIndex: 1
+  /** Fond rouge quand mot de passe insuffisant */
+  inputInsecureBg: {
+    backgroundColor: Colors.error, // ajuste si tu préfères un rouge plus clair (ex: Colors.errorLight)
   },
   toggle: {
     paddingHorizontal: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1
+    zIndex: 1,
   },
 });
