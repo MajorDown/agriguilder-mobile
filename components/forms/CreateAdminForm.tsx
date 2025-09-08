@@ -1,3 +1,4 @@
+import createAdmin from "@/utils/requests/forAdmin/createAdmin";
 import { ReactNode, useEffect, useState } from "react";
 import { View } from 'react-native';
 import AppModal from '../AppModal';
@@ -48,16 +49,18 @@ const CreateAdminForm = (): ReactNode => {
         validateInputs();
     }, [newAdmin]);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         // Soumission du formulaire si tous les champs sont valides
         if (inputsValidation.firstName && 
             inputsValidation.lastName && 
             inputsValidation.email && 
             inputsValidation.phone) {
             console.log("Form submittable:", newAdmin);
+            const response = await createAdmin(newAdmin);
         } else {
             console.log("Form not valid:", inputsValidation);
         }
+
     };
 
     return (<AppModal visible={true} onClose={() => {}} title="Créer un nouvel admin">

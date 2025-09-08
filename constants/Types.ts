@@ -16,6 +16,12 @@ export type NewMemberInfos = {
     initialCount: UserCounter
 }
 
+export type NewAdminInfos = {
+    mail: UserMail,
+    name: UserName,
+    phone: UserPhone,
+    guild: Guild,
+}
 // TYPES POUR ADMIN
 
 export type Admin = {
