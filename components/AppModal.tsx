@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     },
     card: {
         width: "90%",
+        gap: 10,
         backgroundColor: AppColors.dark,
         borderRadius: 12,
         padding: 12,

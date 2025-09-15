@@ -1,39 +1,41 @@
-import { useAdminContext } from "@/contexts/adminContext";
-import { useMemberContext } from "@/contexts/memberContext";
+// utils/requests/updatePassword.ts
+const apiKey =
+  process.env.EXPO_PUBLIC_API_URL || 'https://agriguilder.com/api';
 
-const apiKey = process.env.EXPO_PUBLIC_API_URL || 'https://agriguilder.com/api'
+export type UpdatePasswordParams = {
+  oldPassword: string;
+  newPassword: string;
+  token: string;
+  status: 'admin' | 'member';
+  mail: string;
+};
 
-type Props = {
-    oldPassword: string;
-    newPassword: string;
+export default async function updatePassword({
+  oldPassword,
+  newPassword,
+  token,
+  status,
+  mail,
+}: UpdatePasswordParams): Promise<void> {
+  const body = {
+    lastPassword: oldPassword,
+    newPassword,
+    status,
+    user: { mail },
+  };
+
+  console.log('Mise à jour du mot de passe:', body);
+  const res = await fetch(`${apiKey}/password/update`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const msg = await res.text().catch(() => '');
+    throw new Error(msg || `Erreur côté serveur: ${res.status}`);
+  }
 }
-
-const updatePassword = async (props: Props): Promise<void> => {
-    const {admin} = useAdminContext();
-    const {member} = useMemberContext();
-
-    const req = {
-        lastPassword: props.oldPassword,
-        newPassword: props.newPassword,
-        status: admin ? 'admin' : 'member',
-        user: admin ? admin : member
-    }
-
-    try {
-        const response = await fetch(`${apiKey}/password/update`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${admin?.token || member?.token}`,
-            },
-            body: JSON.stringify(req),
-        });
-        if (!response.ok) {
-            throw new Error(`Erreur côté serveur: ${response.status}`);
-        }
-    } catch (error) {
-        console.error("Error updating password:", error);
-    }
-}
-
-export default updatePassword;

@@ -7,12 +7,13 @@ export type AppPwdInputProps = {
   placeholder?: string;
   value?: string;
   onChange?: (text: string) => void;
+  /** true si le mot de passe est fort */
   isSecured?: (isSecure: boolean) => void;
   required?: boolean;
 };
 
-/** Au moins 1 minuscule, 1 majuscule, 1 chiffre, 1 caractère spécial, longueur ≥ 12 */
-const STRONG_PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}$/;
+/** 1 minuscule, 1 majuscule, 1 chiffre, 1 spécial, longueur ≥ 10 */
+const STRONG_PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
 
 const AppPwdInput = (props: AppPwdInputProps) => {
   const [value, setValue] = useState<string>(props.value || '');
@@ -25,11 +26,9 @@ const AppPwdInput = (props: AppPwdInputProps) => {
 
   const isStrong = useMemo(() => STRONG_PWD_REGEX.test(value), [value]);
 
-  // Fond rouge si non fort ET (champ rempli OU required)
-  const showInsecureBg = useMemo(
-    () => (!isStrong && (value.length > 0 || !!props.required)),
-    [isStrong, value.length, props.required]
-  );
+  // Rouge si rempli et faible, Vert si rempli et fort
+  const showWeak = useMemo(() => value.length > 0 && !isStrong, [isStrong, value.length]);
+  const showStrong = useMemo(() => value.length > 0 && isStrong, [isStrong, value.length]);
 
   useEffect(() => {
     props.isSecured?.(isStrong);
@@ -66,15 +65,23 @@ const AppPwdInput = (props: AppPwdInputProps) => {
           style={[
             styles.input,
             { flex: 1 },
-            showInsecureBg && styles.inputInsecureBg,
+            showWeak && styles.inputWeakBg,     // rouge si faible
+            showStrong && styles.inputStrongBg, // vert si fort
           ]}
           accessible
-          accessibilityLabel={props.label}
+          accessibilityLabel={props.label || 'Mot de passe'}
           autoCapitalize="none"
           autoCorrect={false}
           textContentType="password"
+          keyboardType="default"
+          returnKeyType="done"
         />
-        <TouchableOpacity onPress={() => setSecure(!secure)} style={styles.toggle}>
+        <TouchableOpacity
+          onPress={() => setSecure(!secure)}
+          style={styles.toggle}
+          accessibilityRole="button"
+          accessibilityLabel={secure ? 'Afficher le mot de passe' : 'Masquer le mot de passe'}
+        >
           {secure ? (
             <Image source={require('@/assets/images/icons/visible_on.png')} />
           ) : (
@@ -109,9 +116,13 @@ const styles = StyleSheet.create({
     width: '100%',
     zIndex: 1,
   },
-  /** Fond rouge quand mot de passe insuffisant */
-  inputInsecureBg: {
-    backgroundColor: Colors.error, // ajuste si tu préfères un rouge plus clair (ex: Colors.errorLight)
+  // Rouge quand faible
+  inputWeakBg: {
+    backgroundColor: Colors.error,
+  },
+  // ✅ Vert quand fort (utilise Colors.ok défini dans AppColors)
+  inputStrongBg: {
+    backgroundColor: Colors.ok,
   },
   toggle: {
     paddingHorizontal: 10,
