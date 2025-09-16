@@ -1,3 +1,5 @@
+import { ConnectedAdmin, NewAdminInfos } from "@/constants/Types";
+import { useAdminContext } from "@/contexts/adminContext";
 import createAdmin from "@/utils/requests/forAdmin/createAdmin";
 import { ReactNode, useEffect, useState } from "react";
 import { View } from 'react-native';
@@ -6,6 +8,7 @@ import AppButton from '../buttons/AppButton';
 import AppEmailInput from "../inputs/AppEmailInput";
 import AppPhoneInput from "../inputs/AppPhoneInput";
 import AppTextInput from "../inputs/AppTextInput";
+import AppText from "../texts/AppText";
 
 type NewAdminDTO = {
     firstName: string;
@@ -22,6 +25,8 @@ type CreateAdminInputsValidation = {
 }
 
 const CreateAdminForm = (): ReactNode => {
+    const {admin} = useAdminContext();
+
     const [newAdmin, setNewAdmin] = useState<NewAdminDTO>({
         firstName: '',
         lastName: '',
@@ -35,6 +40,9 @@ const CreateAdminForm = (): ReactNode => {
         email: false,
         phone: false
     });
+
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<boolean>(false);
 
     const validateInputs = () => {
         setInputsValidation({
@@ -50,17 +58,33 @@ const CreateAdminForm = (): ReactNode => {
     }, [newAdmin]);
 
     const handleSubmit = async () => {
-        // Soumission du formulaire si tous les champs sont valides
-        if (inputsValidation.firstName && 
-            inputsValidation.lastName && 
-            inputsValidation.email && 
-            inputsValidation.phone) {
-            console.log("Form submittable:", newAdmin);
-            const response = await createAdmin(newAdmin);
-        } else {
-            console.log("Form not valid:", inputsValidation);
+        try {
+            if (newAdmin.firstName === '' || newAdmin.lastName === '' || newAdmin.email === '' || newAdmin.phone === '') {
+                setError("Veuillez remplir tous les champs");
+                return;
+            }
+            const newAdminInfos = {
+                name: newAdmin.firstName + ' ' + newAdmin.lastName,
+                mail: newAdmin.email,
+                phone: newAdmin.phone,
+                guild: admin?.guild
+            }
+            const response = await createAdmin(newAdminInfos as NewAdminInfos, admin as ConnectedAdmin);
+            console.log("CreateAdminForm ~> Admin créé avec succès:", response);
+            // Réinitialiser le formulaire après création réussie
+            setError(null);
+            setSuccess(true);
+            setTimeout(() => setSuccess(false), 3000);
+            setNewAdmin({
+                firstName: '',
+                lastName: '',
+                email: '',
+                phone: ''
+            });
+        } catch (error) {
+            console.log("CreateAdminForm ~> Error:", error);
+            setError("Erreur lors de la création de l'admin");
         }
-
     };
 
     return (<AppModal visible={true} onClose={() => {}} title="Créer un nouvel admin">
@@ -88,6 +112,8 @@ const CreateAdminForm = (): ReactNode => {
                         onChange={(v) => setNewAdmin({...newAdmin, phone: v})}
                     />
                     <AppButton text="Créer" onPress={() => handleSubmit()} type={"light"} />
+                    {error && <AppText type="error">{error}</AppText>}
+                    {success && <AppText type="infos">L'admin a été créé avec succès !</AppText>}
                 </View>
     </AppModal>);
 };
