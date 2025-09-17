@@ -2,7 +2,7 @@ import { ConnectedAdmin, NewAdminInfos } from "@/constants/Types";
 import { useAdminContext } from "@/contexts/adminContext";
 import createAdmin from "@/utils/requests/forAdmin/createAdmin";
 import { ReactNode, useEffect, useState } from "react";
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import AppModal from '../AppModal';
 import AppButton from '../buttons/AppButton';
 import AppEmailInput from "../inputs/AppEmailInput";
@@ -24,7 +24,16 @@ type CreateAdminInputsValidation = {
     phone: boolean;
 }
 
-const CreateAdminForm = (): ReactNode => {
+type Props = {
+    visible: boolean;
+    onClose: () => void;
+}
+
+/**
+ * @description Formulaire de création d'un nouvel admin
+ * @returns {ReactNode} Le composant CreateAdminForm
+ * */
+const CreateAdminForm = (props: Props): ReactNode => {
     const {admin} = useAdminContext();
 
     const [newAdmin, setNewAdmin] = useState<NewAdminDTO>({
@@ -87,8 +96,8 @@ const CreateAdminForm = (): ReactNode => {
         }
     };
 
-    return (<AppModal visible={true} onClose={() => {}} title="Créer un nouvel admin">
-                <View>
+    return (<AppModal visible={props.visible} onClose={() => {props.onClose()}} title="Créer un nouvel admin">
+                <View style={Styles.container}>
                     <AppTextInput 
                         label={'son nom :'} 
                         placeholder={"Dupont"}
@@ -119,3 +128,13 @@ const CreateAdminForm = (): ReactNode => {
 };
 
 export default CreateAdminForm;
+
+const Styles = StyleSheet.create({
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 10,
+    }
+});

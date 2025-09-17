@@ -1,5 +1,6 @@
 import AppPage from '@/components/AppPage';
 import AppButton from '@/components/buttons/AppButton';
+import CreateAdminForm from '@/components/forms/CreateAdminForm';
 import UpdatePassword from '@/components/forms/UpdatePasswordForm';
 import { useAdminContext } from '@/contexts/adminContext';
 import { useRouter } from 'expo-router';
@@ -26,7 +27,7 @@ const Options = () => {
             <AppButton type='green' text="se déconnecter" onPress={handleLogout} />
         </View>
         {selectedOption === 'setPassword' && <UpdatePassword visible={selectedOption === 'setPassword'} onClose={() => setSelectedOption(null)} />}
-        {selectedOption === 'createAdmin' && <Text>Créer un nouvel admin</Text>}
+        {selectedOption === 'createAdmin' && <CreateAdminForm visible={selectedOption === 'createAdmin'} onClose={() => setSelectedOption(null)} />}
         {selectedOption === 'resetCounters' && <Text>Réinitialiser les compteurs</Text>}
     </AppPage>)
 }
