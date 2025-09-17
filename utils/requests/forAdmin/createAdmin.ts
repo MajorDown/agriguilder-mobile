@@ -12,13 +12,15 @@ const createAdmin = async (
   newAdmin: NewAdminInfos,
   admin: ConnectedAdmin
 ): Promise<any> => {
+  console.log("createAdmin ~> Création d'un nouvel admin avec les infos :", newAdmin);
+  console.log("createAdmin ~> Requête effectuée par l'admin connecté :", admin);
   try {
-    const response = await fetch(`${APIUrl}/member/signup`, {
+    const response = await fetch(`${APIUrl}/admin/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${admin.token}`,
-        "X-Auth-Email": admin.mail,
+        "X-admin-Mail": admin.mail,
       },
       body: JSON.stringify(newAdmin),
     });

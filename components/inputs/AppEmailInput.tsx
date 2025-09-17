@@ -180,6 +180,7 @@ const AppEmailInput = (props: AppEmailInputProps): ReactNode => {
             style={[styles.input, styles.local, errLocal && styles.inputError]}
             accessible
             accessibilityLabel="Partie locale de l’email"
+            autoCapitalize="none"
           />
         </Animated.View>
 
@@ -194,6 +195,7 @@ const AppEmailInput = (props: AppEmailInputProps): ReactNode => {
             style={[styles.input, styles.domain, errDomain && styles.inputError]}
             accessible
             accessibilityLabel="Domaine de l’email"
+            autoCapitalize="none"
           />
         </Animated.View>
 
@@ -208,6 +210,7 @@ const AppEmailInput = (props: AppEmailInputProps): ReactNode => {
             style={[styles.input, styles.tld, errTld && styles.inputError]}
             accessible
             accessibilityLabel="Extension (TLD) de l’email"
+            autoCapitalize="none"
           />
         </Animated.View>
       </View>
