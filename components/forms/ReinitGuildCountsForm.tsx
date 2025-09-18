@@ -1,3 +1,4 @@
+import { useAdminContext } from "@/contexts/adminContext";
 import { ReactNode, useState } from "react";
 import { StyleSheet, View } from 'react-native';
 import AppModal from '../AppModal';
@@ -11,11 +12,25 @@ type Props = {
 }
 
 const ReinitGuildCountsForm = (props: Props): ReactNode => {
+    const {admin} = useAdminContext();
     const [selectedOption, setSelectedOption] = useState<'keep' | 'delete'>('keep');
     const [wantToReset, setWantToReset] = useState<boolean>(false);
     const [hasbeenReset, setHasbeenReset] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async () => {
+        if (!admin) return;
+        try {
+
+        }
+        catch (error) {
+            setError('error :' + error);
+        }
+        setHasbeenReset(true);
+        setWantToReset(false);
+        setTimeout(() => {
+            window.location.reload();
+        }, 5000);
 
     }
 
